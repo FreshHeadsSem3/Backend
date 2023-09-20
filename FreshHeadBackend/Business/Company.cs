@@ -1,12 +1,13 @@
-﻿namespace FreshHeadBackend.Business
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace FreshHeadBackend.Business
 {
     public class Company
     {
-        private int ID { get; }
-        private string Name { get; }
-        private string Description { get; }
-        private List<string> Images { get; }
-        private List<Deal> Deals { get; }
+        [Key][Required] public Guid ID { get; set; }
+        [Required] public string Name { get; set; }
+        public string Description { get; set; }
+        public virtual ICollection<CompanyImage> Images { get; set; }
         public Company()
         {
 

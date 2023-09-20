@@ -8,7 +8,7 @@ namespace FreshHeadBackend.Logic
     {
         public List<DealModel> GetAllDeals()
         {
-            DealModel deal = new DealModel(1, "Test", "Dit is een test", new List<string>());
+            DealModel deal = new DealModel(new Guid(), "Test", "Dit is een test", new List<string>());
             List<DealModel> dealModels = new List<DealModel>();
             dealModels.Add(deal);
 

@@ -1,3 +1,6 @@
+using FreshHeadBackend.Interfaces;
+using FreshHeadBackend.Logic;
+
 namespace FreshHeadBackend
 {
     public class Program
@@ -12,6 +15,8 @@ namespace FreshHeadBackend
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            RegisterInterfaces(builder);
 
             var app = builder.Build();
 
@@ -30,6 +35,11 @@ namespace FreshHeadBackend
             app.MapControllers();
 
             app.Run();
+
+        }
+        private static void RegisterInterfaces(WebApplicationBuilder builder)
+        {
+            builder.Services.AddScoped<IDeal, DealLogic>();
         }
     }
 }

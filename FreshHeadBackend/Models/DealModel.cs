@@ -1,4 +1,5 @@
 ﻿using FreshHeadBackend.Business;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace FreshHeadBackend.Models
 {
@@ -16,7 +17,12 @@ namespace FreshHeadBackend.Models
             Description = description;
             Images = images;
         }
-
+        public DealModel(string title, string description, string[] images)
+        {
+            Title = title;
+            Description = description;
+            Images = images;
+        }
         public DealModel(Deal deal)
         {
             ID = deal.ID;

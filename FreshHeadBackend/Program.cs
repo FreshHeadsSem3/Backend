@@ -1,6 +1,7 @@
 using FreshHeadBackend.Business;
 using FreshHeadBackend.Interfaces;
 using FreshHeadBackend.Logic;
+using FreshHeadBackend.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -19,6 +20,7 @@ namespace FreshHeadBackend
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             //builder.Services.AddDbContext<DBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 
             builder.Services.AddDbContext<DBContext>(options =>
@@ -49,7 +51,8 @@ namespace FreshHeadBackend
         }
         private static void RegisterInterfaces(WebApplicationBuilder builder)
         {
-            builder.Services.AddScoped<IDeal, DealLogic>();
+            builder.Services.AddScoped<IDealService, DealService>();
+            builder.Services.AddScoped<IDealRepository, DealRepository>();
         }
     }
 }

@@ -10,10 +10,12 @@ namespace FreshHeadBackend.Logic
 
         private readonly IMapper mapper;
         private readonly IDealRepository dealRepository;
-        public DealService(IMapper mapper, IDealRepository dealRepository)
+        private readonly ICompanyRepository companyRepository;
+        public DealService(IMapper mapper, IDealRepository dealRepository, ICompanyRepository companyRepository)
         {
             this.mapper = mapper;
             this.dealRepository = dealRepository;
+            this.companyRepository = companyRepository;
         }
 
         public List<DealModel> GetAllDeals()
@@ -24,12 +26,20 @@ namespace FreshHeadBackend.Logic
 
             return dealModels;
         }
-        public Deal CreateDeal(DealModel insertDeal)
+        public DealModel CreateDeal(CreateDealModel insertDeal)
         {
-            Deal deal = dealRepository.CreateDeal(mapper.Map<Deal>(insertDeal));
-            Deal dto = mapper.Map<Deal>(deal);
+            Deal deal = new Deal();
+            deal.Title = insertDeal.title;
+            deal.Description = insertDeal.description;
+            deal.Company = companyRepository.GetCompany(insertDeal.companyID);
+            deal.Images = new List<DealImage>();
+            foreach(string image in insertDeal.images) {
+                DealImage dealimage = new DealImage(image);
+                deal.Images.Add(dealimage);
+            }
+            Deal returnedDeal = dealRepository.CreateDeal(deal);
             dealRepository.Save();
-            return dto;
+            return new DealModel(returnedDeal);
         }
     }
 }

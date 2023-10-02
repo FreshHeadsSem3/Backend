@@ -13,13 +13,9 @@ namespace FreshHeadBackend.Repositories
         }
         public Deal CreateDeal(Deal dealEntity)
         {
-            EntityEntry entry = Add(dealEntity);
-            if (entry.State != EntityState.Added)
-            {
-                 throw new Exception("Service already exists!");
-            }
-            Deal entity = entry.Entity as Deal;
-            return entity;
+            Deals.Add(dealEntity);
+            Save();
+            return dealEntity;
         }
 
         public void Save()

@@ -1,5 +1,4 @@
 ﻿using FreshHeadBackend.Business;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace FreshHeadBackend.Models
 {
@@ -8,21 +7,22 @@ namespace FreshHeadBackend.Models
         public Guid ID { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public virtual ICollection<string> Images { get; set; }
+        public List<string> Images { get; set; }
 
-        public DealModel(Guid iD, string title, string description, ICollection<string> images)
+        public DealModel(Guid iD, string title, string description, List<string> images)
         {
             ID = iD;
             Title = title;
             Description = description;
             Images = images;
         }
-        public DealModel(string title, string description, string[] images)
+        public DealModel(string title, string description, List<string> images)
         {
             Title = title;
             Description = description;
             Images = images;
         }
+
         public DealModel(Deal deal)
         {
             ID = deal.ID;

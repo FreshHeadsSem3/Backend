@@ -9,6 +9,8 @@ namespace FreshHeadBackend
         {
             CreateMap<Business.Deal, Models.DealModel>();
             CreateMap<Models.DealModel, Business.Deal>();
+            CreateMap<Business.Deal, Models.CreateDealModel>();
+            CreateMap<Models.CreateDealModel, Business.Deal>();
         }
     }
 }

@@ -25,17 +25,16 @@ namespace FreshHeadBackend.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateDeal(DealModel deal)
+        public IActionResult CreateDeal(CreateDealModel model)
         {//verbeteren
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            Deal dto = dealService.CreateDeal(deal);
-            
+            DealModel result = dealService.CreateDeal(model);
 
-            return Ok(dto);
+            return Ok(result);
         }
 
     }

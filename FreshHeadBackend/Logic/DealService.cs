@@ -20,25 +20,23 @@ namespace FreshHeadBackend.Logic
 
         public List<DealModel> GetAllDeals()
         {
-            DealModel deal = new DealModel(new Guid(), "Test", "Dit is een test", new List<string>());
-            List<DealModel> dealModels = new List<DealModel>();
-            dealModels.Add(deal);
-
-            return dealModels;
+            List<DealModel> result = new List<DealModel>();
+            foreach(Deal deal in dealRepository.GetAllDeals()) {
+                result.Add(new DealModel(deal));
+            }
+            return result;
         }
         public DealModel CreateDeal(CreateDealModel insertDeal)
         {
             Deal deal = new Deal();
             deal.Title = insertDeal.title;
             deal.Description = insertDeal.description;
-            deal.Company = companyRepository.GetCompany(insertDeal.companyID);
-            deal.Images = new List<DealImage>();
-            foreach(string image in insertDeal.images) {
-                DealImage dealimage = new DealImage(image);
-                deal.Images.Add(dealimage);
-            }
+            deal.CompanyID = insertDeal.companyID;
             Deal returnedDeal = dealRepository.CreateDeal(deal);
-            dealRepository.Save();
+            foreach(string image in insertDeal.images) {
+                DealImage dealimage = new DealImage(image, returnedDeal.ID);
+                dealRepository.CreateDealImage(dealimage);
+            }
             return new DealModel(returnedDeal);
         }
     }

@@ -11,11 +11,24 @@ namespace FreshHeadBackend.Repositories
         {
             Database.EnsureCreated();
         }
+
+        public List<Deal> GetAllDeals()
+        {
+            return Deals.ToList();
+        }
+
         public Deal CreateDeal(Deal dealEntity)
         {
             Deals.Add(dealEntity);
             Save();
             return dealEntity;
+        }
+
+        public DealImage CreateDealImage(DealImage imageEntity)
+        {
+            DealImages.Add(imageEntity);
+            Save();
+            return imageEntity;
         }
 
         public void Save()

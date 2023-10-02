@@ -28,14 +28,14 @@ namespace FreshHeadBackend.Business
                 .HasOne(d => d.Company)
                 .WithMany(c => c.Deals)
                 .HasForeignKey(d => d.CompanyID);
-            modelBuilder.Entity<Company>()
-                .HasMany(c => c.Images)
-                .WithOne(i => i.Company)
-                .HasForeignKey(c => c.ID);
-            modelBuilder.Entity<Deal>()
-                .HasMany(d => d.Images)
-                .WithOne(i => i.Deal)
-                .HasForeignKey(d => d.ID);
+            modelBuilder.Entity<CompanyImage>()
+                .HasOne(i => i.Company)
+                .WithMany(c => c.Images)
+                .HasForeignKey(i => i.CompanyID);
+            modelBuilder.Entity<DealImage>()
+                .HasOne(i => i.Deal)
+                .WithMany(d => d.Images)
+                .HasForeignKey(i => i.DealID);
         }
     }
 }

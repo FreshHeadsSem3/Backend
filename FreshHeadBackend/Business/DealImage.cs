@@ -6,12 +6,14 @@ namespace FreshHeadBackend.Business
     {
         [Key][Required] public Guid ID { get; set; }
 
+        public Guid DealID { get; set; }
         [Required] public string ImageUrl { get; set; }
-        public Deal Deal { get; set; }
+        [Required] public virtual Deal Deal { get; set; }
 
-        public DealImage(string imageUrl)
+        public DealImage(string imageUrl, Guid dealID)
         {
             this.ImageUrl = imageUrl;
+            this.DealID = dealID;
         }
     }
 }

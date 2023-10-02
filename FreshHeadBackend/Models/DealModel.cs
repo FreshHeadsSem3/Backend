@@ -29,9 +29,10 @@ namespace FreshHeadBackend.Models
             Title = deal.Title;
             Description = deal.Description;
             Images = new List<string>();
-            foreach(DealImage image in deal.Images)
-            {
-                Images.Add(image.ImageUrl);
+            if(deal.Images != null) {
+                foreach(DealImage image in deal.Images) {
+                    Images.Add(image.ImageUrl);
+                }
             }
         }
     }

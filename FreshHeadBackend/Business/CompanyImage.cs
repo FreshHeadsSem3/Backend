@@ -6,6 +6,7 @@ namespace FreshHeadBackend.Business
     {
         [Key][Required] public Guid ID { get; set; }
         [Required] public string ImageUrl { get; set; }
-        public Company Company { get; set; }
+        public Guid CompanyID { get; set; }
+        [Required] public virtual Company Company { get; set; }
     }
 }

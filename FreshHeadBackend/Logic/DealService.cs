@@ -27,7 +27,11 @@ namespace FreshHeadBackend.Logic
             }
             return result;
         }
-
+        public DealModel GetDealByID(Guid dealID)
+        {
+            Deal deal = dealRepository.GetDealById(dealID);
+            return new DealModel(deal);
+        }
         private List<DealImage> getImagesByDealID(Guid dealID)
         {
             return dealRepository.GetDealImageByDealID(dealID);
@@ -46,5 +50,6 @@ namespace FreshHeadBackend.Logic
             }
             return new DealModel(returnedDeal);
         }
+        
     }
 }

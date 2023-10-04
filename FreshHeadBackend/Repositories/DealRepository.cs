@@ -31,6 +31,11 @@ namespace FreshHeadBackend.Repositories
             return imageEntity;
         }
 
+        public List<DealImage> GetDealImageByDealID(Guid dealID)
+        {
+            return DealImages.Where(x => x.DealID == dealID).ToList();
+        }
+
         public void Save()
         {
             SaveChanges(true);

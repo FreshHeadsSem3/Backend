@@ -7,6 +7,7 @@ namespace FreshHeadBackend.Interfaces
         List<Deal> GetAllDeals();
         Deal CreateDeal(Deal dealEntity);
         DealImage CreateDealImage(DealImage imageEntity);
+        List<DealImage> GetDealImageByDealID(Guid dealID);
         void Save();
         void Save(bool acceptChangesOnSuccess);
     }

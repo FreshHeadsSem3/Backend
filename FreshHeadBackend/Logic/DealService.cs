@@ -22,10 +22,17 @@ namespace FreshHeadBackend.Logic
         {
             List<DealModel> result = new List<DealModel>();
             foreach(Deal deal in dealRepository.GetAllDeals()) {
+                deal.Images = getImagesByDealID(deal.ID);
                 result.Add(new DealModel(deal));
             }
             return result;
         }
+
+        private List<DealImage> getImagesByDealID(Guid dealID)
+        {
+            return dealRepository.GetDealImageByDealID(dealID);
+        }
+
         public DealModel CreateDeal(CreateDealModel insertDeal)
         {
             Deal deal = new Deal();

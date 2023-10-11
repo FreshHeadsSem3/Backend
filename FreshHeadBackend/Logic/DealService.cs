@@ -11,11 +11,13 @@ namespace FreshHeadBackend.Logic
         private readonly IMapper mapper;
         private readonly IDealRepository dealRepository;
         private readonly ICompanyRepository companyRepository;
-        public DealService(IMapper mapper, IDealRepository dealRepository, ICompanyRepository companyRepository)
+        private readonly IMailService mailService;
+        public DealService(IMapper mapper, IDealRepository dealRepository, ICompanyRepository companyRepository, IMailService mailService)
         {
             this.mapper = mapper;
             this.dealRepository = dealRepository;
             this.companyRepository = companyRepository;
+            this.mailService = mailService;
         }
 
         public List<DealModel> GetAllDeals()
@@ -51,5 +53,10 @@ namespace FreshHeadBackend.Logic
             return new DealModel(returnedDeal);
         }
         
+        public bool ClaimDeal(ClaimDealModel model)
+        {
+            Deal deal = dealRepository.GetDealById(model.DealID);
+            return mailService.SendEmailAsync(model.MailUser, deal.Title, model.MailMSG);
+        }
     }
 }

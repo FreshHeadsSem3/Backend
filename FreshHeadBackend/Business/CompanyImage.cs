@@ -8,5 +8,10 @@ namespace FreshHeadBackend.Business
         [Required] public string ImageUrl { get; set; }
         public Guid CompanyID { get; set; }
         [Required] public virtual Company Company { get; set; }
+        public CompanyImage(string imageUrl, Guid companyID)
+        {
+            ImageUrl = imageUrl;
+            CompanyID = companyID;
+        }
     }
 }

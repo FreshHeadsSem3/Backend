@@ -9,6 +9,7 @@ namespace FreshHeadBackend.Business
         public string Description { get; set; }
         public virtual ICollection<Deal> Deals { get; set; }
         public virtual ICollection<CompanyImage> Images { get; set; }
+        public int KVK { get; set; }
         public Company()
         {
 

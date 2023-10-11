@@ -14,10 +14,50 @@ namespace FreshHeadBackend.Repositories
         public Company GetCompany(Guid companyID)
         {
             Company company = Companies.Find(companyID);
-            if (company == null) {
+            if (company == null)
+            {
                 throw new Exception("Company not found");
             }
             return company;
+        }
+
+        public Company GetCompanyByID(Guid companyID)
+        {
+            Company company = Companies.Where(x => x.ID == companyID).FirstOrDefault();
+            company.Images = GetCompanyImageByCompanyID(companyID);
+            if (company == null)
+            {
+                throw new Exception("Company not found");
+            }
+            return company;
+        }
+        public Company CreateCompany(Company companyEntity)
+        {
+            Companies.Add(companyEntity);
+            Save();
+            return companyEntity;
+        }
+
+        public CompanyImage CreateCompanyImage(CompanyImage imageEntity)
+        {
+            CompanyImages.Add(imageEntity);
+            Save();
+            return imageEntity;
+        }
+
+        public List<CompanyImage> GetCompanyImageByCompanyID(Guid companyID)
+        {
+            return CompanyImages.Where(x => x.CompanyID == companyID).ToList();
+        }
+
+        public void Save()
+        {
+            SaveChanges(true);
+        }
+
+        public void Save(bool acceptChangesOnSuccess)
+        {
+            SaveChanges(acceptChangesOnSuccess);
         }
     }
 }

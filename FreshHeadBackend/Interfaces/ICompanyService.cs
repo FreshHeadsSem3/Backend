@@ -1,9 +1,11 @@
 ﻿using FreshHeadBackend.Business;
+using FreshHeadBackend.Models;
 
 namespace FreshHeadBackend.Interfaces
 {
     public interface ICompanyService
     {
-        Company getCompanyByID(Guid companyID);
+        CompanyModel GetCompanyByID(Guid companyID);
+        CompanyModel CreateCompany(CreateCompanyModel company);
     }
 }

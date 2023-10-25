@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FreshHeadBackend.Business;
 using FreshHeadBackend.Interfaces;
+using FreshHeadBackend.Models;
 
 namespace FreshHeadBackend.Logic
 {
@@ -15,9 +16,36 @@ namespace FreshHeadBackend.Logic
             this.companyRepository = companyRepository;
         }
 
-        public Company getCompanyByID(Guid companyID)
+        public Company GetCompany(Guid companyID)
         {
             return this.companyRepository.GetCompany(companyID);
+        }
+
+        public CompanyModel GetCompanyByID(Guid companyID)
+        {
+            Company company = companyRepository.GetCompanyByID(companyID);
+            return new CompanyModel(company);
+        }
+
+        private List<CompanyImage> GetCompanyImageByCompanyID(Guid companyID)
+        {
+            return companyRepository.GetCompanyImageByCompanyID(companyID);
+        }
+
+        public CompanyModel CreateCompany(CreateCompanyModel insertCompany)
+        {
+            Company company = new Company();
+            company.Title = insertCompany.Title;
+            company.Description = insertCompany.Description;
+            company.KVK = insertCompany.KVK;
+            Company returnedCompany = companyRepository.CreateCompany(company);
+            foreach(string image in insertCompany.Images)
+            {
+                CompanyImage companyImage = new CompanyImage(image, returnedCompany.ID);
+                companyRepository.CreateCompanyImage(companyImage);
+            }
+            return new CompanyModel(returnedCompany);
+
         }
     }
 }

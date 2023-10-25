@@ -17,6 +17,18 @@ namespace FreshHeadBackend.Repositories
             return Deals.ToList();
         }
 
+        public List<Deal> GetDealByCategory(string category)
+        {
+            //return Deals.Where(x => x.Category == category).ToList();
+            return null;
+        }
+
+        public Deal GetDealById(Guid dealID)
+        {
+            Deal deal = Deals.Where(x => x.ID == dealID).FirstOrDefault();
+            deal.Images = GetDealImageByDealID(dealID);
+            return deal;
+        }
         public Deal CreateDeal(Deal dealEntity)
         {
             Deals.Add(dealEntity);
@@ -45,5 +57,7 @@ namespace FreshHeadBackend.Repositories
         {
             SaveChanges(acceptChangesOnSuccess);
         }
+
+        
     }
 }

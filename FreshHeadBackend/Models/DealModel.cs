@@ -22,7 +22,6 @@ namespace FreshHeadBackend.Models
             Description = description;
             Images = images;
         }
-
         public DealModel(Deal deal)
         {
             ID = deal.ID;

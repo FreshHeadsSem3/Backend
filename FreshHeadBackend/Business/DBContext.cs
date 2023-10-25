@@ -14,6 +14,7 @@ namespace FreshHeadBackend.Business
         public virtual DbSet<Deal> Deals { get; set; }
         public virtual DbSet<CompanyImage> CompanyImages { get; set; }
         public virtual DbSet<DealImage> DealImages { get; set; }
+        public virtual DbSet<DealCategory> DealCategories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -23,6 +24,7 @@ namespace FreshHeadBackend.Business
             modelBuilder.Entity<Deal>().Property(Deals => Deals.ID).HasDefaultValueSql("NEWID()");
             modelBuilder.Entity<CompanyImage>().Property(CompanyImages => CompanyImages.ID).HasDefaultValueSql("NEWID()");
             modelBuilder.Entity<DealImage>().Property(DealImage => DealImage.ID).HasDefaultValueSql("NEWID()");
+            modelBuilder.Entity<DealCategory>().Property(DealCategory => DealCategory.ID).HasDefaultValueSql("NEWID()");
 
             modelBuilder.Entity<Deal>()
                 .HasOne(d => d.Company)
@@ -36,6 +38,9 @@ namespace FreshHeadBackend.Business
                 .HasOne(i => i.Deal)
                 .WithMany(d => d.Images)
                 .HasForeignKey(i => i.DealID);
+            modelBuilder.Entity<Deal>()
+                .Property(d => d.CategoryID);
+               
         }
     }
 }

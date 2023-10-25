@@ -27,6 +27,19 @@ namespace FreshHeadBackend.Logic
             }
             return result;
         }
+
+        public List<DealModel> GetDealByCategory(string category) 
+        {
+            List<DealModel> result = new List<DealModel>();
+            foreach(Deal deal in dealRepository.GetDealByCategory(category))
+            {
+                deal.Images = getImagesByDealID(deal.ID);
+                result.Add(new DealModel(deal));
+            }
+            return result;
+            
+        }
+
         public DealModel GetDealByID(Guid dealID)
         {
             Deal deal = dealRepository.GetDealById(dealID);

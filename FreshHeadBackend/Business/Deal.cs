@@ -10,6 +10,8 @@ namespace FreshHeadBackend.Business
         public Guid CompanyID { get; set; }
         [Required] public virtual Company Company { get; set; }
         public virtual ICollection<DealImage> Images { get; set; }
+        public int CategoryID { get; set; }
+        public virtual DealCategory DealCategory { get; set; }
         public Deal()
         {
 

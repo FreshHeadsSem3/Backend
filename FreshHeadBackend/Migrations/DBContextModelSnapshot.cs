@@ -83,7 +83,9 @@ namespace FreshHeadBackend.Migrations
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
+                    b.Property<int>("CategoryID")
+                        .IsRequired()
+                        .HasColumnType("int");
                     b.HasKey("ID");
 
                     b.HasIndex("CompanyID");

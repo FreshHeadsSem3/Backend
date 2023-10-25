@@ -35,7 +35,7 @@ namespace FreshHeadBackend.Logic
         public CompanyModel CreateCompany(CreateCompanyModel insertCompany)
         {
             Company company = new Company();
-            company.Name = insertCompany.Name;
+            company.Title = insertCompany.Title;
             company.Description = insertCompany.Description;
             company.KVK = insertCompany.KVK;
             Company returnedCompany = companyRepository.CreateCompany(company);

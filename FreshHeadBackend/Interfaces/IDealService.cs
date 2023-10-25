@@ -6,6 +6,7 @@ namespace FreshHeadBackend.Interfaces
     {
         List<DealModel> GetAllDeals();
         DealModel GetDealByID(Guid dealID);
+        List<DealModel> GetDealByCategory(string category);
         DealModel CreateDeal(CreateDealModel deal);
     }
 }

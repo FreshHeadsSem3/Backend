@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FreshHeadBackend.Migrations
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20231025095754_CompanyTitle")]
-    partial class CompanyTitle
+    [Migration("20231025124615_CompanyPropertiesChanged")]
+    partial class CompanyPropertiesChanged
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FreshHeadBackend.Migrations
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20231002132722_InitialCreate")]
+    [Migration("20231025122022_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -73,7 +73,13 @@ namespace FreshHeadBackend.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("NEWID()");
 
+                    b.Property<Guid>("CategoryID")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("CompanyID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("DealCategoryID")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
@@ -88,7 +94,25 @@ namespace FreshHeadBackend.Migrations
 
                     b.HasIndex("CompanyID");
 
+                    b.HasIndex("DealCategoryID");
+
                     b.ToTable("Deals");
+                });
+
+            modelBuilder.Entity("FreshHeadBackend.Business.DealCategory", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("DealCategories");
                 });
 
             modelBuilder.Entity("FreshHeadBackend.Business.DealImage", b =>
@@ -131,7 +155,15 @@ namespace FreshHeadBackend.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("FreshHeadBackend.Business.DealCategory", "DealCategory")
+                        .WithMany()
+                        .HasForeignKey("DealCategoryID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Company");
+
+                    b.Navigation("DealCategory");
                 });
 
             modelBuilder.Entity("FreshHeadBackend.Business.DealImage", b =>

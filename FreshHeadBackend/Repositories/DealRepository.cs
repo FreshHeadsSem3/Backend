@@ -19,8 +19,8 @@ namespace FreshHeadBackend.Repositories
 
         public List<Deal> GetDealByCategory(string category)
         {
-            return Deals.Where(x => x.Category == category).ToList();
-            
+            //return Deals.Where(x => x.Category == category).ToList();
+            return null;
         }
 
         public Deal GetDealById(Guid dealID)

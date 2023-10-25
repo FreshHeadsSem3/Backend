@@ -4,6 +4,9 @@ using FreshHeadBackend.Logic;
 using FreshHeadBackend.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Text;
 
 namespace FreshHeadBackend
 {
@@ -28,6 +31,25 @@ namespace FreshHeadBackend
                         .AllowAnyMethod()
                         .AllowAnyHeader();
                 });
+            });
+            // Adding Authentication
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            // Adding Jwt Bearer
+            .AddJwtBearer(options =>
+            {
+                options.SaveToken = true;
+                options.RequireHttpsMetadata = false;
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidAudience = builder.Configuration.GetSection("JWT:ValidAudience").Value,
+                    ValidIssuer = builder.Configuration.GetSection("JWT:ValidIssuer").Value,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("JWT:Key").Value)),
+
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true
+                };
             });
 
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

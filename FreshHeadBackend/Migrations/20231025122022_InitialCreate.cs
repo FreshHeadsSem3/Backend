@@ -25,6 +25,18 @@ namespace FreshHeadBackend.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "DealCategories",
+                columns: table => new
+                {
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DealCategories", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "CompanyImages",
                 columns: table => new
                 {
@@ -50,7 +62,9 @@ namespace FreshHeadBackend.Migrations
                     ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CompanyID = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    CompanyID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CategoryID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    DealCategoryID = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -59,6 +73,12 @@ namespace FreshHeadBackend.Migrations
                         name: "FK_Deals_Companies_CompanyID",
                         column: x => x.CompanyID,
                         principalTable: "Companies",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Deals_DealCategories_DealCategoryID",
+                        column: x => x.DealCategoryID,
+                        principalTable: "DealCategories",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -96,6 +116,11 @@ namespace FreshHeadBackend.Migrations
                 name: "IX_Deals_CompanyID",
                 table: "Deals",
                 column: "CompanyID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Deals_DealCategoryID",
+                table: "Deals",
+                column: "DealCategoryID");
         }
 
         /// <inheritdoc />
@@ -112,6 +137,9 @@ namespace FreshHeadBackend.Migrations
 
             migrationBuilder.DropTable(
                 name: "Companies");
+
+            migrationBuilder.DropTable(
+                name: "DealCategories");
         }
     }
 }

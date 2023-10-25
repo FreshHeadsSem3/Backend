@@ -1,9 +1,11 @@
-﻿namespace FreshHeadBackend.Business
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace FreshHeadBackend.Business
 {
     public class DealCategory
     {
-        public int ID { get; set; }
-        public string Name { get; set; }
+        [Key] [Required] public Guid ID { get; set; }
+        [Required] public string Name { get; set; }
          
 
         public DealCategory()

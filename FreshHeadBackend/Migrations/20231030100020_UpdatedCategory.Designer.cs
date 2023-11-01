@@ -4,6 +4,7 @@ using FreshHeadBackend.Business;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FreshHeadBackend.Migrations
 {
     [DbContext(typeof(DBContext))]
-    partial class DBContextModelSnapshot : ModelSnapshot
+    [Migration("20231030100020_UpdatedCategory")]
+    partial class UpdatedCategory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -73,10 +76,10 @@ namespace FreshHeadBackend.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("NEWID()");
 
-                    b.Property<Guid>("CategoryID")
+                    b.Property<Guid>("CompanyID")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CompanyID")
+                    b.Property<Guid>("DealCategoryID")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
@@ -89,9 +92,9 @@ namespace FreshHeadBackend.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("CategoryID");
-
                     b.HasIndex("CompanyID");
+
+                    b.HasIndex("DealCategoryID");
 
                     b.ToTable("Deals");
                 });
@@ -146,15 +149,15 @@ namespace FreshHeadBackend.Migrations
 
             modelBuilder.Entity("FreshHeadBackend.Business.Deal", b =>
                 {
-                    b.HasOne("FreshHeadBackend.Business.DealCategory", "DealCategory")
-                        .WithMany("Deals")
-                        .HasForeignKey("CategoryID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("FreshHeadBackend.Business.Company", "Company")
                         .WithMany("Deals")
                         .HasForeignKey("CompanyID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FreshHeadBackend.Business.DealCategory", "DealCategory")
+                        .WithMany()
+                        .HasForeignKey("DealCategoryID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -184,11 +187,6 @@ namespace FreshHeadBackend.Migrations
             modelBuilder.Entity("FreshHeadBackend.Business.Deal", b =>
                 {
                     b.Navigation("Images");
-                });
-
-            modelBuilder.Entity("FreshHeadBackend.Business.DealCategory", b =>
-                {
-                    b.Navigation("Deals");
                 });
 #pragma warning restore 612, 618
         }

@@ -11,7 +11,7 @@ namespace FreshHeadBackend.Business
         public Guid CompanyID { get; set; }
         [Required] public virtual Company Company { get; set; }
         public virtual ICollection<DealImage> Images { get; set; }
-        public virtual DealCategory dealCategory { get; set; }
+        public virtual DealCategory DealCategory { get; set; }
         public Deal()
         {
 
@@ -23,7 +23,7 @@ namespace FreshHeadBackend.Business
             {
                 stringImages.Add(image.ImageUrl);
             }
-            return new DealModel(ID, Title, Description,stringImages, dealCategory.Name);
+            return new DealModel(ID, Title, Description,stringImages, DealCategory.Name);
         }
     }
 }

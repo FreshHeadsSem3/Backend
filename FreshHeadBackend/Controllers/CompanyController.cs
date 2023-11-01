@@ -18,12 +18,6 @@ namespace FreshHeadBackend.Controllers
             this.mapper = mapper;
         }
 
-        //[HttpGet]
-        //public IActionResult Index()
-        //{
-        //    return Ok(CreateCompany);
-        //}
-
         [HttpGet]
         [Route("{ID}")]
         public IActionResult GetCompanyByID(Guid ID)

@@ -7,5 +7,6 @@ namespace FreshHeadBackend.Interfaces
     {
         CompanyModel GetCompanyByID(Guid companyID);
         CompanyModel CreateCompany(CreateCompanyModel company);
+        List<CompanyModel> GetCompanies();
     }
 }

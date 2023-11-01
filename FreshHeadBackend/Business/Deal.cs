@@ -12,6 +12,7 @@ namespace FreshHeadBackend.Business
         [Required] public virtual Company Company { get; set; }
         public virtual ICollection<DealImage> Images { get; set; }
         public virtual DealCategory DealCategory { get; set; }
+        public Guid CategoryID { get; set; }
         public Deal()
         {
 

@@ -57,7 +57,7 @@ namespace FreshHeadBackend.Logic
             Deal deal = new Deal();
             deal.Title = insertDeal.title;
             deal.Description = insertDeal.description;
-            deal.DealCategory.ID = insertDeal.categoryID;
+            deal.CategoryID = insertDeal.categoryID;
             deal.CompanyID = insertDeal.companyID;
             Deal returnedDeal = dealRepository.CreateDeal(deal);
             foreach(string image in insertDeal.images) {

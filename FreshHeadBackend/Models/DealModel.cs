@@ -8,6 +8,18 @@ namespace FreshHeadBackend.Models
         public string Title { get; set; }
         public string Description { get; set; }
         public List<string> Images { get; set; }
+        public string DealCategory { get; set; }
+
+
+        public DealModel(Guid iD, string title, string description, List<string> images, string dealCategory)
+        {
+            ID = iD;
+            Title = title;
+            Description = description;
+            Images = images;
+            DealCategory = dealCategory;
+        }
+        
 
         public DealModel(Guid iD, string title, string description, List<string> images)
         {
@@ -27,6 +39,7 @@ namespace FreshHeadBackend.Models
             ID = deal.ID;
             Title = deal.Title;
             Description = deal.Description;
+            DealCategory = deal.DealCategory.Name;
             Images = new List<string>();
             if(deal.Images != null) {
                 foreach(DealImage image in deal.Images) {

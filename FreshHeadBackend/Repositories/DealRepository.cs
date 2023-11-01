@@ -14,21 +14,32 @@ namespace FreshHeadBackend.Repositories
 
         public List<Deal> GetAllDeals()
         {
-            return Deals.ToList();
+            return Deals.Include(deal => deal.DealCategory).ToList();
         }
 
         public List<Deal> GetDealByCategory(string category)
         {
-            //return Deals.Where(x => x.Category == category).ToList();
-            return null;
+           // DealCategory dealCategory = DealCategories.Where(x => x.Name == category).FirstOrDefault();
+            //return Deals.Where(x => x.DealCategory.ID == dealCategory.ID).ToList();
+            return Deals.Include(deal => deal.DealCategory).Where(x => x.DealCategory.Name == category).ToList();
+            
         }
 
         public Deal GetDealById(Guid dealID)
         {
-            Deal deal = Deals.Where(x => x.ID == dealID).FirstOrDefault();
-            deal.Images = GetDealImageByDealID(dealID);
+            Deal deal = Deals
+                .Include(deal => deal.DealCategory) // Include the category information
+                .Where(x => x.ID == dealID)
+                .FirstOrDefault();
+
+            if (deal != null)
+            {
+                deal.Images = GetDealImageByDealID(dealID);
+            }
+
             return deal;
         }
+
         public Deal CreateDeal(Deal dealEntity)
         {
             Deals.Add(dealEntity);

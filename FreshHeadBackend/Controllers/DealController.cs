@@ -25,18 +25,17 @@ namespace FreshHeadBackend.Controllers
         }
 
         [HttpGet]
-        [Route("{id}")]
-        public IActionResult GetDealByID(Guid ID)
+        [Route("deals/{id}")]
+        public IActionResult GetDealByID(Guid id)
         {
-            return Ok(dealService.GetDealByID(ID));
+            return Ok(dealService.GetDealByID(id));
         }
 
         [HttpGet]
-        [Route("{category}")]
+        [Route("deals/category/{category}")]
         public IActionResult GetDealByCategory(string category)
         {
             return Ok(dealService.GetDealByCategory(category));
-            
         }
 
         [HttpPost]

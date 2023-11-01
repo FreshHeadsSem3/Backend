@@ -52,6 +52,17 @@ namespace FreshHeadBackend.Controllers
             return Ok(result);
         }
 
+        [HttpPost]
+        [Route("ClaimDeal")]
+        public IActionResult ClaimDeal(ClaimDealModel model)
+        {
+            if (!ModelState.IsValid) {
+                return BadRequest(ModelState);
+            }
+
+            return Ok(dealService.ClaimDeal(model));
+        }
+
     }
 }
 

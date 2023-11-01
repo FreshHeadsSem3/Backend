@@ -37,10 +37,7 @@ namespace FreshHeadBackend.Business
             modelBuilder.Entity<DealImage>()
                 .HasOne(i => i.Deal)
                 .WithMany(d => d.Images)
-                .HasForeignKey(i => i.DealID);
-            modelBuilder.Entity<Deal>()
-                .Property(d => d.CategoryID);
-               
+                .HasForeignKey(i => i.DealID);               
         }
     }
 }

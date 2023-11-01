@@ -2,6 +2,7 @@
 using FreshHeadBackend.Business;
 using FreshHeadBackend.Interfaces;
 using FreshHeadBackend.Models;
+using System.ComponentModel.Design;
 
 namespace FreshHeadBackend.Logic
 {
@@ -45,7 +46,18 @@ namespace FreshHeadBackend.Logic
                 companyRepository.CreateCompanyImage(companyImage);
             }
             return new CompanyModel(returnedCompany);
+        }
 
+        public List<CompanyModel> GetCompanies()
+        {
+            List<CompanyModel> companymodels = new List<CompanyModel>();
+            List<Company> companies = companyRepository.GetCompanies();
+            foreach(Company company in companies)
+            {
+                companymodels.Add(new CompanyModel(company.ID, company.Title));
+            }
+
+            return companymodels;
         }
     }
 }

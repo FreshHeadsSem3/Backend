@@ -63,6 +63,8 @@ namespace FreshHeadBackend
         {
             builder.Services.AddScoped<IDealService, DealService>();
             builder.Services.AddScoped<IDealRepository, DealRepository>();
+            builder.Services.AddScoped<IDealCategoryService, DealCategoryService>();
+            builder.Services.AddScoped<IDealCategoryRepository, DealCategoryRepository>();
             builder.Services.AddScoped<ICompanyService, CompanyService>();
             builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
             builder.Services.AddScoped<IMailService, MailService>();

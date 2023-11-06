@@ -59,7 +59,6 @@ namespace FreshHeadBackend.Controllers
             if (!ModelState.IsValid) {
                 return BadRequest(ModelState);
             }
-
             return Ok(dealService.ClaimDeal(model));
         }
 

@@ -50,6 +50,11 @@ namespace FreshHeadBackend.Repositories
             return CompanyImages.Where(x => x.CompanyID == companyID).ToList();
         }
 
+        public List<Company> GetCompanies()
+        {
+            return Companies.ToList();
+        }
+
         public void Save()
         {
             SaveChanges(true);

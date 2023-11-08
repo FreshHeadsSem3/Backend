@@ -37,5 +37,12 @@ namespace FreshHeadBackend.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet]
+        public IActionResult GetCompanies()
+        {
+            return Ok(companyService.GetCompanies());
+        }
+
     }
 }

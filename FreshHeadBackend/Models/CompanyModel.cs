@@ -28,6 +28,12 @@ namespace FreshHeadBackend.Models
             KVK = kvk;
         }
 
+        public CompanyModel(Guid iD, string title)
+        {
+            ID = iD;
+            Title = title;
+        }
+
         public CompanyModel(Company company)
         {
             ID = company.ID;

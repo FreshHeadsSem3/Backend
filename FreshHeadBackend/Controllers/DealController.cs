@@ -25,7 +25,7 @@ namespace FreshHeadBackend.Controllers
         }
 
         [HttpGet]
-        [Route("deals/{id}")]
+        [Route("{id}")]
         public IActionResult GetDealByID(Guid id)
         {
             return Ok(dealService.GetDealByID(id));

@@ -1,7 +1,9 @@
 using FreshHeadBackend.Models;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.Design;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace FreshHeadBackend.Business
 {
@@ -21,8 +23,19 @@ namespace FreshHeadBackend.Business
         public Guid CategoryID { get; set; }
         public Deal()
         {
-
         }
+
+        public Deal(CreateDealModel model)
+        {
+            this.CompanyID = model.companyID;
+            this.Title = model.title;
+            this.Description = model.description;
+            this.Location = model.location;
+            this.MaxParticipents = model.maxParticipants;
+            this.ActiveTill = model.activeTill;
+            this.CategoryID = model.categoryID;
+        }
+
         public DealModel getDTO()
         {
             List<string> stringImages = new List<string>();

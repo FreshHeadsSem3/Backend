@@ -64,11 +64,7 @@ namespace FreshHeadBackend.Logic
 
         public DealModel CreateDeal(CreateDealModel insertDeal)
         {
-            Deal deal = new Deal();
-            deal.Title = insertDeal.title;
-            deal.Description = insertDeal.description;
-            deal.CategoryID = insertDeal.categoryID;
-            deal.CompanyID = insertDeal.companyID;
+            Deal deal = new Deal(insertDeal);
             Deal returnedDeal = dealRepository.CreateDeal(deal);
             foreach(string image in insertDeal.images) {
                 DealImage dealimage = new DealImage(image, returnedDeal.ID);

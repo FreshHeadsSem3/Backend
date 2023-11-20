@@ -38,6 +38,7 @@ namespace FreshHeadBackend.Controllers
             return Ok(dealService.GetDealByCategory(category));
         }
 
+        //deal/deals/title/""
         [HttpGet]
         [Route("deals/title/{title}")]
         public IActionResult GetDealByTitle(string title)
@@ -64,6 +65,7 @@ namespace FreshHeadBackend.Controllers
             return Ok(result);
         }
 
+        //dealClaimDeal
         [HttpPost]
         [Route("ClaimDeal")]
         public IActionResult ClaimDeal(ClaimDealModel model)

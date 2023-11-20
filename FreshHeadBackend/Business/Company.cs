@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FreshHeadBackend.Business
 {
@@ -10,6 +11,12 @@ namespace FreshHeadBackend.Business
         public virtual ICollection<Deal> Deals { get; set; }
         public virtual ICollection<CompanyImage> Images { get; set; }
         public int KVK { get; set; }
+        public string UserEmail { get; set; }
+        public string UserPassword { get; set; }
+        [AllowNull] public string Link1 { get; set; }
+        [AllowNull] public string Link2 { get; set; }
+        [AllowNull] public string Link3 { get; set; }
+        [AllowNull] public string Link4 { get; set; }
         public Company()
         {
 

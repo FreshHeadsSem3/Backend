@@ -25,6 +25,7 @@ namespace FreshHeadBackend.Business
             modelBuilder.Entity<CompanyImage>().Property(CompanyImages => CompanyImages.ID).HasDefaultValueSql("NEWID()");
             modelBuilder.Entity<DealImage>().Property(DealImage => DealImage.ID).HasDefaultValueSql("NEWID()");
             modelBuilder.Entity<DealCategory>().Property(DealCategory => DealCategory.ID).HasDefaultValueSql("NEWID()");
+            modelBuilder.Entity<DealParticipants>().Property(DealParticipants => DealParticipants.ID).HasDefaultValueSql("NEWID()");
 
             modelBuilder.Entity<Deal>()
                 .HasOne(d => d.Company)
@@ -42,6 +43,10 @@ namespace FreshHeadBackend.Business
                 .HasOne(d => d.DealCategory)
                 .WithMany(c => c.Deals)
                 .HasForeignKey(d => d.CategoryID);
+            modelBuilder.Entity<DealParticipants>()
+                .HasOne(d => d.Deal)
+                .WithMany(dp => dp.Participants)
+                .HasForeignKey(d => d.DealID);
         }
     }
 }

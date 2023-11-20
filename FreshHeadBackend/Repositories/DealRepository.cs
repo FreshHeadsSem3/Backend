@@ -26,6 +26,10 @@ namespace FreshHeadBackend.Repositories
         {
             return Deals.Include(deal => deal.DealCategory).Where(x => x.Title.Contains(title)).ToList();
         }
+        public List<Deal> GetDealByCompanyName(string companyName)
+        {
+            return Deals.Include(deal => deal.DealCategory).Where(x => x.Company.Title.Contains(companyName)).ToList();
+        }
 
         
         public Deal GetDealById(Guid dealID)

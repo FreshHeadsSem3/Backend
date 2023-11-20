@@ -7,6 +7,7 @@ namespace FreshHeadBackend.Interfaces
         List<Deal> GetAllDeals();
         List<Deal> GetDealByCategory(string category);
         List<Deal> GetDealByTitle(string title);
+        List<Deal> GetDealByCompanyName(string companyName);
         Deal GetDealById(Guid dealID);
         Deal CreateDeal(Deal dealEntity);
         DealImage CreateDealImage(DealImage imageEntity);

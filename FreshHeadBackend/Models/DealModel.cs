@@ -46,7 +46,6 @@ namespace FreshHeadBackend.Models
             Title = deal.Title;
             Description = deal.Description;
             MaxParticipents = deal.MaxParticipents;
-            Claimed = deal.Claimed;
             if (deal.Location != null) Location = deal.Location;
             else Location = "";
             if (deal.ActiveTill < new DateTime(2000, 1, 1)) ;

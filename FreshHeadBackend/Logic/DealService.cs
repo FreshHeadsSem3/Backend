@@ -76,10 +76,10 @@ namespace FreshHeadBackend.Logic
         public bool ClaimDeal(ClaimDealModel model)
         {
             Deal deal = dealRepository.GetDealById(model.DealID);
-            if (deal.MaxParticipents > 0 && deal.MaxParticipents == deal.Claimed) return false; //als maxparticipent bereikt is mag de deal niet geclaimed worden.
+            if (deal.MaxParticipents > 0) return false; //als maxparticipent bereikt is mag de deal niet geclaimed worden.
             if (deal.ActiveTill <= new DateTime()) return false; //als het op de datum of na de datum is mag de deal niet geclaimed worden.
             bool result = mailService.SendEmailAsync(model.MailUser, deal.Title, model.MailMSG);
-            if(result) if (deal.MaxParticipents > 0) deal.Claimed++; //als de deal een max participants heeft wordt er een deal geclaimed, alleen als de mail verstuurd is.
+            if(result) if (deal.MaxParticipents > 0); //als de deal een max participants heeft wordt er een deal geclaimed, alleen als de mail verstuurd is.
             return result; //als de mail verzonden is return true. als de mail niet verzonden is return false
         }
     }

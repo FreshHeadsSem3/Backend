@@ -14,17 +14,17 @@ namespace FreshHeadBackend.Repositories
 
         public List<Deal> GetAllDeals()
         {
-            return Deals.Include(deal => deal.DealCategory).ToList();
+            return Deals.Include(deal => deal.DealCategory).Include(deal => deal.Participants).ToList();
         }
 
         public List<Deal> GetDealByCategory(string category)
         {
-            return Deals.Include(deal => deal.DealCategory).Where(x => x.DealCategory.Name == category).ToList();
+            return Deals.Include(deal => deal.DealCategory).Include(deal => deal.Participants).Where(x => x.DealCategory.Name == category).ToList();
             
         }
         public List<Deal> GetDealByTitle(string title)
         {
-            return Deals.Include(deal => deal.DealCategory).Where(x => x.Title.Contains(title)).ToList();
+            return Deals.Include(deal => deal.DealCategory).Include(deal => deal.Participants).Where(x => x.Title.Contains(title)).ToList();
         }
 
         
@@ -32,6 +32,7 @@ namespace FreshHeadBackend.Repositories
         {
             Deal deal = Deals
                 .Include(deal => deal.DealCategory) // Include the category information
+                .Include(deal => deal.Participants)
                 .Where(x => x.ID == dealID)
                 .FirstOrDefault();
 
@@ -60,6 +61,13 @@ namespace FreshHeadBackend.Repositories
         public List<DealImage> GetDealImageByDealID(Guid dealID)
         {
             return DealImages.Where(x => x.DealID == dealID).ToList();
+        }
+
+        public DealParticipants CreateDealParticipant(DealParticipants participantEntity)
+        {
+            DealParticipants.Add(participantEntity);
+            Save();
+            return participantEntity;
         }
 
         public void Save()

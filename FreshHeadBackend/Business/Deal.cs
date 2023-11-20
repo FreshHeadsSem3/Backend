@@ -46,5 +46,14 @@ namespace FreshHeadBackend.Business
             }
             return new DealModel(ID, Title, Description,stringImages, DealCategory.Name);
         }
+
+        public int GetParticipantsCount()
+        {
+            if (this.Participants == null) {
+                return 0;
+            } else {
+                return this.Participants.Count();
+            }
+        }
     }
 }

@@ -13,5 +13,11 @@ namespace FreshHeadBackend.Business
         {
                 
         }
+
+        public DealParticipants(Guid dealID, string email)
+        {
+            this.DealID = dealID;
+            this.Email = email;
+        }
     }
 }

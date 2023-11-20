@@ -19,6 +19,12 @@ namespace FreshHeadBackend.Controllers
         }
 
         [HttpGet]
+        public IActionResult GetAllCompanies()
+        {
+            return Ok(companyService.GetAllCompanies());
+        }
+
+        [HttpGet]
         [Route("{ID}")]
         public IActionResult GetCompanyByID(Guid ID)
         {

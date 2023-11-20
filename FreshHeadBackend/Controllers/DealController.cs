@@ -46,6 +46,14 @@ namespace FreshHeadBackend.Controllers
             return Ok(dealService.GetDealByTitle(title));
         }
 
+        //deal/company/"companyID"
+        [HttpGet]
+        [Route("company/{companyID}")]
+        public IActionResult GetDealByCompany(Guid companyID)
+        {
+            return Ok(dealService.GetDealByCompany(companyID));
+        }
+
         [HttpPost]
         public IActionResult CreateDeal(CreateDealModel model)
         {//verbeteren

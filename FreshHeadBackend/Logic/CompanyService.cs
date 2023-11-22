@@ -23,7 +23,7 @@ namespace FreshHeadBackend.Logic
             List<CompanyModel> result = new List<CompanyModel>();
             foreach (Company company in companyRepository.GetAllCompanies())
             {
-                company.Images = getImagesByCompanyID(company.ID);
+                company.Images = GetCompanyImageByCompanyID(company.ID);
                 result.Add(new CompanyModel(company));
             }
             return result;

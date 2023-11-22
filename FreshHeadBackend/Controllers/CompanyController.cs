@@ -45,6 +45,7 @@ namespace FreshHeadBackend.Controllers
         }
 
         [HttpGet]
+        [Route("dealCategory")]
         public IActionResult GetCompanies()
         {
             return Ok(companyService.GetCompanies());

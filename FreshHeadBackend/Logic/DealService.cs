@@ -84,5 +84,10 @@ namespace FreshHeadBackend.Logic
             }
             return result; //als de mail verzonden is return true. als de mail niet verzonden is return false
         }
+
+        public bool CancleDeal(CancelDealModel cancleDeal)
+        {
+            return dealRepository.RemoveDealParticipant(cancleDeal.DealID, cancleDeal.MailUser);
+        }
     }
 }

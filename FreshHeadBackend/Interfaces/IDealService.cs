@@ -10,5 +10,6 @@ namespace FreshHeadBackend.Interfaces
         List<DealModel> GetDealByTitle(string title);
         DealModel CreateDeal(CreateDealModel deal);
         bool ClaimDeal(ClaimDealModel claimDeal);
+        bool CancleDeal(CancelDealModel cancleDeal);
     }
 }

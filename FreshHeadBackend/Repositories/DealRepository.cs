@@ -70,6 +70,19 @@ namespace FreshHeadBackend.Repositories
             return participantEntity;
         }
 
+        public bool RemoveDealParticipant(Guid dealID, string usermail)
+        {
+            DealParticipants participantToRemove = DealParticipants
+                .Where(x => x.DealID == dealID && x.Email == usermail)
+                .FirstOrDefault();
+            if (participantToRemove != null) {
+                DealParticipants.Remove(participantToRemove);
+                Save();
+                return true; // Return true if removal was successful
+            }
+            return false; // Return false if no matching participant was found
+        }
+
         public void Save()
         {
             SaveChanges(true);
@@ -78,8 +91,6 @@ namespace FreshHeadBackend.Repositories
         public void Save(bool acceptChangesOnSuccess)
         {
             SaveChanges(acceptChangesOnSuccess);
-        }
-
-        
+        }        
     }
 }

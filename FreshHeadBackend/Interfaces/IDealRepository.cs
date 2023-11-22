@@ -12,6 +12,7 @@ namespace FreshHeadBackend.Interfaces
         DealImage CreateDealImage(DealImage imageEntity);
         List<DealImage> GetDealImageByDealID(Guid dealID);
         DealParticipants CreateDealParticipant(DealParticipants participantEntity);
+        bool RemoveDealParticipant(Guid dealID, string usermail);
         void Save();
         void Save(bool acceptChangesOnSuccess);
     }

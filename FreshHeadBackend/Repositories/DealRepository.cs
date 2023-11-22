@@ -35,12 +35,13 @@ namespace FreshHeadBackend.Repositories
                 .Include(deal => deal.Participants)
                 .Where(x => x.ID == dealID)
                 .FirstOrDefault();
-
+            if(deal == null) {
+                throw new Exception("DealNotFound");
+            }
             if (deal != null)
             {
                 deal.Images = GetDealImageByDealID(dealID);
             }
-
             return deal;
         }
 

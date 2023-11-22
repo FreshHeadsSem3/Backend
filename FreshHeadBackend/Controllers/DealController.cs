@@ -31,7 +31,7 @@ namespace FreshHeadBackend.Controllers
             try {
                 return Ok(dealService.GetDealByID(id));
             } catch(Exception ex) {
-                return Ok(null);
+                return Ok(ex);
             }
         }
 

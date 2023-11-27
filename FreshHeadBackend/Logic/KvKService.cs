@@ -6,7 +6,7 @@ namespace FreshHeadBackend.Logic
     public class KvKService : IKvKService
     {
         private readonly string baseUrl = "https://api.kvk.nl/test/api/v1/zoeken";
-        private readonly string apiKey = "l7xx1f2691f2520d487b902f4e0b57a0b197a";
+        private readonly string apiKey = "l7xx1f2691f2520d487b902f4e0b57a0b197";
 
         public async Task<bool> VerifyKvKNumber(string kNumber)
         {

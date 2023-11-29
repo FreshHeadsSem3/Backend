@@ -23,17 +23,29 @@ namespace FreshHeadBackend.Logic
         public List<DealModel> GetAllDeals()
         {
             List<DealModel> result = new List<DealModel>();
-            foreach(Deal deal in dealRepository.GetAllDeals()) {
-                deal.Images = getImagesByDealID(deal.ID);
-                result.Add(new DealModel(deal));
+
+            if (dealRepository.GetAllDeals() == null)
+            {
+                return null;
             }
-            return result;
+
+            else
+            {
+                foreach (Deal deal in dealRepository.GetAllDeals())
+                {
+                    deal.Images = getImagesByDealID(deal.ID);
+                    result.Add(new DealModel(deal));
+                }
+                return result;
+            }
+
+            
         }
 
-        public List<DealModel> GetDealByCategory(string category) 
+        public List<DealModel> GetDealByCategory(Guid categoryID) 
         {
             List<DealModel> result = new List<DealModel>();
-            foreach(Deal deal in dealRepository.GetDealByCategory(category))
+            foreach(Deal deal in dealRepository.GetDealByCategory(categoryID))
             {
                 deal.Images = getImagesByDealID(deal.ID);
                 result.Add(new DealModel(deal));
@@ -64,8 +76,16 @@ namespace FreshHeadBackend.Logic
 
         public DealModel GetDealByID(Guid dealID)
         {
-            Deal deal = dealRepository.GetDealById(dealID);
-            return new DealModel(deal);
+           Deal deal = dealRepository.GetDealById(dealID);
+           if ( deal == null)
+            {
+                return null;
+            }
+           else
+            {
+                return new DealModel(deal);
+            }
+            
         }
         private List<DealImage> getImagesByDealID(Guid dealID)
         {
@@ -86,10 +106,10 @@ namespace FreshHeadBackend.Logic
         public bool ClaimDeal(ClaimDealModel model)
         {
             Deal deal = dealRepository.GetDealById(model.DealID);
-            if (deal.MaxParticipents > 0) return false; //als maxparticipent bereikt is mag de deal niet geclaimed worden.
+            if (deal.MaxParticipants > 0) return false; //als maxparticipent bereikt is mag de deal niet geclaimed worden.
             if (deal.ActiveTill <= new DateTime()) return false; //als het op de datum of na de datum is mag de deal niet geclaimed worden.
             bool result = mailService.SendEmailAsync(model.MailUser, deal.Title, model.MailMSG);
-            if(result) if (deal.MaxParticipents > 0); //als de deal een max participants heeft wordt er een deal geclaimed, alleen als de mail verstuurd is.
+            if(result) if (deal.MaxParticipants > 0); //als de deal een max participants heeft wordt er een deal geclaimed, alleen als de mail verstuurd is.
             return result; //als de mail verzonden is return true. als de mail niet verzonden is return false
         }
     }

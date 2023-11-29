@@ -5,7 +5,7 @@ namespace FreshHeadBackend.Interfaces
     public interface IDealRepository
     {
         List<Deal> GetAllDeals();
-        List<Deal> GetDealByCategory(string category);
+        List<Deal> GetDealByCategory(Guid categoryID);
         List<Deal> GetDealByTitle(string title);
         List<Deal> GetDealByCompanyName(string companyName);
         Deal GetDealById(Guid dealID);

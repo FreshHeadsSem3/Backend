@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreshHeadBackend", "FreshHeadBackend\FreshHeadBackend.csproj", "{AC946EFF-7193-466D-B74F-E82617D3241E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FreshHeadBackend", "FreshHeadBackend\FreshHeadBackend.csproj", "{AC946EFF-7193-466D-B74F-E82617D3241E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreshHeadBackendUnitTest", "FreshHeadBackendUnitTest\FreshHeadBackendUnitTest.csproj", "{CF19C41A-C713-4BD2-94BE-9DE722CE4939}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{AC946EFF-7193-466D-B74F-E82617D3241E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AC946EFF-7193-466D-B74F-E82617D3241E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AC946EFF-7193-466D-B74F-E82617D3241E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF19C41A-C713-4BD2-94BE-9DE722CE4939}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF19C41A-C713-4BD2-94BE-9DE722CE4939}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF19C41A-C713-4BD2-94BE-9DE722CE4939}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF19C41A-C713-4BD2-94BE-9DE722CE4939}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

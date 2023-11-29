@@ -28,14 +28,23 @@ namespace FreshHeadBackend.Controllers
         [Route("{id}")]
         public IActionResult GetDealByID(Guid id)
         {
-            return Ok(dealService.GetDealByID(id));
+            DealModel deal = dealService.GetDealByID(id);
+            if (deal == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(deal);
+            }
+            
         }
 
         [HttpGet]
         [Route("deals/category/{category}")]
-        public IActionResult GetDealByCategory(string category)
+        public IActionResult GetDealByCategory(Guid categoryID)
         {
-            return Ok(dealService.GetDealByCategory(category));
+            return Ok(dealService.GetDealByCategory(categoryID));
         }
 
         //deal/deals/title/""

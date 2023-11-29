@@ -1,4 +1,4 @@
-﻿using FreshHeadBackend.Interfaces;
+using FreshHeadBackend.Interfaces;
 using static System.Net.WebRequestMethods;
 
 namespace FreshHeadBackend.Logic
@@ -16,15 +16,15 @@ namespace FreshHeadBackend.Logic
             }
             using (var httpClient = new HttpClient())
             {
-                httpClient.DefaultRequestHeaders.Add("ApiKey", $"Bearer {apiKey}");
+                httpClient.DefaultRequestHeaders.Add("ApiKey", $"{apiKey}");
                 httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
 
-                var requestUrl = $"{baseUrl}?kvkNummer=${kNumber}&pagina=1&aantal=10";
+                var requestUrl = $"{baseUrl}?kvkNummer={kNumber}&pagina=1&aantal=10";
 
                 try
                 {
                     var response = await httpClient.GetAsync(requestUrl);
-
+                    Console.WriteLine(response.StatusCode);
                     if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
                     {
                         return false;

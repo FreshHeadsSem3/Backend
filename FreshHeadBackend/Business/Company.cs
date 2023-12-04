@@ -30,8 +30,8 @@ namespace FreshHeadBackend.Business
             Title = model.Title;
             Description = model.Description;
             KVK = model.KVK;
-            UserEmail = "1";
-            UserPassword = "2";
+            UserEmail = model.UserEmail;
+            UserPassword = model.UserPassword;
             Link1 = model.Link1;
             Link2 = model.Link2;
             Link3 = model.Link3;

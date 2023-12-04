@@ -28,6 +28,10 @@ namespace FreshHeadBackend.Logic
             }
             return result;
         }
+        public CompanyModel GetCompanyByDealID(Guid dealID)
+        {
+            return new CompanyModel(companyRepository.GetCompanyByDealID(dealID));
+        }
 
         public Company GetCompany(Guid companyID)
         {

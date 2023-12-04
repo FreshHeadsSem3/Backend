@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using FreshHeadBackend.Models;
+using FreshHeadBackend.Logic;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using FreshHeadBackend.Interfaces;
 
 namespace FreshHeadBackend.Controllers
 {
@@ -12,15 +15,34 @@ namespace FreshHeadBackend.Controllers
     public class LoginController : Controller
     {
         private IConfiguration _config;
-        public LoginController(IConfiguration config)
+        private ICompanyService companyService;
+        public LoginController(IConfiguration config, ICompanyService _companyService)
         {
             _config = config;
+            companyService = _companyService;
         }
-        [HttpPost]
-        public IActionResult Login()
+
+        [HttpGet]
+        public IActionResult GetCompanyByEmail(string email)
         {
-            //todo: login logic
-            //change claims to add data
+            return Ok(companyService.GetCompanyByEmail(email));
+        }
+
+    
+        public async Task<IActionResult> Login([FromBody] LoginModel model)
+        {
+            // Validate user credentials (example logic)
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid data");
+
+            }
+            var company = companyService.GetCompanyByEmail(model.UserEmail);
+
+            if (company == null)
+            {
+                return Unauthorized("Invalid credentials");
+            }
 
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -39,5 +61,6 @@ namespace FreshHeadBackend.Controllers
 
             return Ok(token);
         }
+
     }
 }

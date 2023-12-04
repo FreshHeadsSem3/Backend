@@ -58,7 +58,7 @@ namespace FreshHeadBackend.Controllers
               signingCredentials: credentials);
 
             var token = new JwtSecurityTokenHandler().WriteToken(Sectoken);
-
+            Response.Headers.Add("Content-Type", "text/plain");
             return Ok(token);
         }
 

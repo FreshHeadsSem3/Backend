@@ -45,7 +45,7 @@ namespace FreshHeadBackend.Models
             ID = deal.ID;
             Title = deal.Title;
             Description = deal.Description;
-            MaxParticipents = deal.MaxParticipents;
+            MaxParticipants = deal.MaxParticipants;
             Claimed = deal.GetParticipantsCount();
             if (deal.Location != null) Location = deal.Location;
             else Location = "";

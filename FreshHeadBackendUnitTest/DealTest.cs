@@ -138,6 +138,21 @@ namespace FreshHeadBackendUnitTest
             Assert.AreEqual(new DateTime(2023, 12, 31), result[0].ActiveTill);
             Assert.AreEqual(new Guid("10000000-0000-0000-0000-000000000001"), result[0].DealCategoryID);
         }
+
+        [TestMethod]
+        public void GetDealByTitleResultIsNull()
+        {
+            // arrange
+            DealStub dealStub = new DealStub();
+            CompanyStub companyStub = new CompanyStub();
+            MailStub mailStub = new MailStub();
+            DealService dealLogic = new DealService(mapper, dealStub, companyStub, mailStub);
+            // act
+            List<DealModel> result = dealLogic.GetDealByTitle("Exciting Deal 777");
+            // assert
+            Assert.AreEqual(0, result.Count);
+        }
+
         [TestMethod]
         public void GetDealByCategoryID()
         {
@@ -157,6 +172,20 @@ namespace FreshHeadBackendUnitTest
             Assert.AreEqual(75, result[0].MaxParticipants);
             Assert.AreEqual(new DateTime(2023, 12, 31), result[0].ActiveTill);
             Assert.AreEqual(new Guid("10000000-0000-0000-0000-000000000001"), result[0].DealCategoryID);
+        }
+
+        [TestMethod]
+        public void GetDealByCategoryIDResultIsNull()
+        {
+            // arrange
+            DealStub dealStub = new DealStub();
+            CompanyStub companyStub = new CompanyStub();
+            MailStub mailStub = new MailStub();
+            DealService dealLogic = new DealService(mapper, dealStub, companyStub, mailStub);
+            // act
+            List<DealModel> result = dealLogic.GetDealByCategory(new Guid("11000000-0000-0000-0000-000000000001"));
+            // assert
+            Assert.AreEqual(0, result.Count);
         }
 
 
@@ -191,6 +220,22 @@ namespace FreshHeadBackendUnitTest
             Assert.AreEqual(new DateTime(2023, 12, 31), dealStub.deals[1].ActiveTill);
             Assert.AreEqual(new Guid("10000000-0000-0000-0000-000000000001"), dealStub.deals[5].CategoryID);
             Assert.AreEqual(new Guid("00000000-0000-0000-0000-000000000001"), dealStub.deals[5].CompanyID);
+        }
+
+        [TestMethod]
+        public void CreateDealFailed()
+        {
+            // arrange
+            DealStub dealStub = new DealStub();
+            CompanyStub companyStub = new CompanyStub();
+            MailStub mailStub = new MailStub();
+            DealService dealLogic = new DealService(mapper, dealStub, companyStub, mailStub);
+            CreateDealModel deal = null;
+            // act
+            dealLogic.CreateDeal(deal);
+            // assert
+            Assert.AreEqual(5, dealStub.deals.Count);
+
         }
     }
 }

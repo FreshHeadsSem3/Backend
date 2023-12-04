@@ -14,7 +14,17 @@ namespace FreshHeadBackend.Repositories
 
         public List<Deal> GetAllDeals()
         {
-            return Deals.Include(deal => deal.DealCategory).ToList();
+            List<Deal> deals = Deals.Include(deal => deal.DealCategory).ToList();
+            if (deals == null)
+            {
+                return null;
+            }
+            else
+            {
+                return deals;
+            }
+
+            
         }
 
         public List<Deal> GetDealByCategory(Guid categoryID)
@@ -24,11 +34,29 @@ namespace FreshHeadBackend.Repositories
         }
         public List<Deal> GetDealByTitle(string title)
         {
-            return Deals.Include(deal => deal.DealCategory).Where(x => x.Title.Contains(title)).ToList();
+            List<Deal> deals = Deals.Include(deal => deal.DealCategory).Where(x => x.Title.Contains(title)).ToList();
+
+            if (deals != null)
+            {
+                return deals;
+            }
+            else
+            {
+                return null;
+            }
         }
         public List<Deal> GetDealByCompanyName(string companyName)
         {
-            return Deals.Include(deal => deal.DealCategory).Where(x => x.Company.Title.Contains(companyName)).ToList();
+            List<Deal> deals = Deals.Include(deal => deal.DealCategory).Where(x => x.Company.Title.Contains(companyName)).ToList();
+
+            if (deals != null)
+            {
+                return deals;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         
@@ -50,9 +78,19 @@ namespace FreshHeadBackend.Repositories
 
         public Deal CreateDeal(Deal dealEntity)
         {
-            Deals.Add(dealEntity);
-            Save();
-            return dealEntity;
+            if (dealEntity == null)
+            {
+                return null;
+            }
+            else
+            {
+                Deals.Add(dealEntity);
+                Save();
+                return dealEntity;
+            }
+            
+
+           
         }
 
         public DealImage CreateDealImage(DealImage imageEntity)

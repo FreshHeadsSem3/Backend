@@ -105,7 +105,7 @@ namespace FreshHeadBackendUnitTest.STUB
 
         public List<Deal> GetDealByCompanyName(string companyName)
         {
-            throw new NotImplementedException();
+            return deals.FindAll(x => x.Company.Title == companyName);
         }
 
         public Deal GetDealById(Guid dealID)

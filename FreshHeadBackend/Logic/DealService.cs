@@ -45,33 +45,61 @@ namespace FreshHeadBackend.Logic
         public List<DealModel> GetDealByCategory(Guid categoryID) 
         {
             List<DealModel> result = new List<DealModel>();
-            foreach(Deal deal in dealRepository.GetDealByCategory(categoryID))
+
+            if(dealRepository.GetDealByCategory(categoryID) == null)
             {
-                deal.Images = getImagesByDealID(deal.ID);
-                result.Add(new DealModel(deal));
+                return null;
             }
-            return result;
-            
+            else
+            {
+                foreach (Deal deal in dealRepository.GetDealByCategory(categoryID))
+                {
+                    deal.Images = getImagesByDealID(deal.ID);
+                    result.Add(new DealModel(deal));
+                }
+                return result;
+            }
+
         }
         public List<DealModel> GetDealByTitle(string title) 
         {
             List<DealModel> result = new List<DealModel>();
-            foreach(Deal deal in dealRepository.GetDealByTitle(title))
+
+
+            if (dealRepository.GetDealByTitle(title) == null)
             {
-                deal.Images = getImagesByDealID(deal.ID);
-                result.Add(new DealModel(deal));
+                return null;
             }
-            return result;
+            else
+            {
+                foreach (Deal deal in dealRepository.GetDealByTitle(title))
+                {
+                    deal.Images = getImagesByDealID(deal.ID);
+                    result.Add(new DealModel(deal));
+                }
+                return result;
+            }
+
         }
         public List<DealModel> GetDealByCompanyName(string companyName)
         {
             List<DealModel> result = new List<DealModel>();
-            foreach(Deal deal in dealRepository.GetDealByCompanyName(companyName))
+
+            if (dealRepository.GetDealByCompanyName(companyName) == null)
             {
-                deal.Images = getImagesByDealID(deal.ID);
-                result.Add(new DealModel(deal));
+                return null;
             }
-            return result;
+            else
+            {
+                foreach (Deal deal in dealRepository.GetDealByCompanyName(companyName))
+                {
+                    deal.Images = getImagesByDealID(deal.ID);
+                    result.Add(new DealModel(deal));
+                }
+                return result;
+            }
+
+            
         }
 
         public DealModel GetDealByID(Guid dealID)
@@ -94,13 +122,23 @@ namespace FreshHeadBackend.Logic
 
         public DealModel CreateDeal(CreateDealModel insertDeal)
         {
-            Deal deal = new Deal(insertDeal);
-            Deal returnedDeal = dealRepository.CreateDeal(deal);
-            foreach(string image in insertDeal.images) {
-                DealImage dealimage = new DealImage(image, returnedDeal.ID);
-                dealRepository.CreateDealImage(dealimage);
+
+            if (insertDeal == null)
+            {
+                return null;
             }
-            return new DealModel(returnedDeal);
+            else
+            {
+                Deal deal = new Deal(insertDeal);
+                Deal returnedDeal = dealRepository.CreateDeal(deal);
+                foreach (string image in insertDeal.images)
+                {
+                    DealImage dealimage = new DealImage(image, returnedDeal.ID);
+                    dealRepository.CreateDealImage(dealimage);
+                }
+                return new DealModel(returnedDeal);
+            }
+            
         }
         
         public bool ClaimDeal(ClaimDealModel model)

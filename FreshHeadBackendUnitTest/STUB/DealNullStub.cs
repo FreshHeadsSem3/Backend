@@ -20,12 +20,22 @@ namespace FreshHeadBackendUnitTest.STUB
             throw new NotImplementedException();
         }
 
+        public DealParticipants CreateDealParticipant(DealParticipants participantEntity)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<Deal> GetAllDeals()
         {
             return null;
         }
 
         public List<Deal> GetDealByCategory(Guid categoryID)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Deal> GetDealByCompany(Guid companyID)
         {
             throw new NotImplementedException();
         }
@@ -46,6 +56,11 @@ namespace FreshHeadBackendUnitTest.STUB
         }
 
         public List<DealImage> GetDealImageByDealID(Guid dealID)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool RemoveDealParticipant(Guid dealID, string usermail)
         {
             throw new NotImplementedException();
         }

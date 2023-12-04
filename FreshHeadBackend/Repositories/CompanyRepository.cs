@@ -11,6 +11,12 @@ namespace FreshHeadBackend.Repositories
         {
             Database.EnsureCreated();
         }
+
+        public List<Company> GetAllCompanies()
+        {
+            return Companies.ToList();
+        }
+
         public Company GetCompany(Guid companyID)
         {
             Company company = Companies.Find(companyID);
@@ -31,6 +37,12 @@ namespace FreshHeadBackend.Repositories
             }
             return company;
         }
+
+        public Company GetCompanyByDealID(Guid dealID)
+        {
+            return Companies.Where(x => x.Deals.Any(d => d.ID == dealID)).FirstOrDefault();
+        }
+
         public Company CreateCompany(Company companyEntity)
         {
             Companies.Add(companyEntity);

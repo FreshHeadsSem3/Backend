@@ -88,6 +88,11 @@ namespace FreshHeadBackendUnitTest.STUB
            
         }
 
+        public DealParticipants CreateDealParticipant(DealParticipants participantEntity)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<Deal> GetAllDeals()
         {
             return deals;
@@ -96,6 +101,11 @@ namespace FreshHeadBackendUnitTest.STUB
         public List<Deal> GetDealByCategory(Guid categoryID)
         {
             return deals.FindAll(x => x.CategoryID == categoryID);
+        }
+
+        public List<Deal> GetDealByCompany(Guid companyID)
+        {
+            throw new NotImplementedException();
         }
 
         public List<Deal> GetDealByCompanyName(string companyName)
@@ -118,6 +128,11 @@ namespace FreshHeadBackendUnitTest.STUB
         {
             return null;
 
+        }
+
+        public bool RemoveDealParticipant(Guid dealID, string usermail)
+        {
+            throw new NotImplementedException();
         }
 
         public void Save()

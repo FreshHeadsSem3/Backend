@@ -28,14 +28,18 @@ namespace FreshHeadBackend.Controllers
         [Route("{id}")]
         public IActionResult GetDealByID(Guid id)
         {
-            return Ok(dealService.GetDealByID(id));
+            try {
+                return Ok(dealService.GetDealByID(id));
+            } catch(Exception ex) {
+                return Ok(ex);
+            }
         }
 
         [HttpGet]
         [Route("deals/category/{category}")]
-        public IActionResult GetDealByCategory(string category)
+        public IActionResult GetDealByCategory(Guid categoryID)
         {
-            return Ok(dealService.GetDealByCategory(category));
+            return Ok(dealService.GetDealByCategory(categoryID));
         }
 
         //deal/deals/title/""
@@ -44,6 +48,12 @@ namespace FreshHeadBackend.Controllers
         public IActionResult GetDealByTitle(string title)
         {
             return Ok(dealService.GetDealByTitle(title));
+        }
+        [HttpGet]
+        [Route("deals/company/{companyName}")]
+        public IActionResult GetDealByCompanyName(string companyName)
+        {
+            return Ok(dealService.GetDealByCompanyName(companyName));
         }
 
         //deal/company/"companyID"
@@ -67,7 +77,7 @@ namespace FreshHeadBackend.Controllers
             return Ok(result);
         }
 
-        //dealClaimDeal
+        // deal/ClaimDeal
         [HttpPost]
         [Route("ClaimDeal")]
         public IActionResult ClaimDeal(ClaimDealModel model)
@@ -78,6 +88,16 @@ namespace FreshHeadBackend.Controllers
             return Ok(dealService.ClaimDeal(model));
         }
 
+        // deal/CancleDeal
+        [HttpPost]
+        [Route("CancelDeal")]
+        public IActionResult CancelDeal(CancelDealModel model)
+        {
+            if (!ModelState.IsValid) {
+                return BadRequest(ModelState);
+            }
+            return Ok(dealService.CancleDeal(model));
+        }
     }
 }
 

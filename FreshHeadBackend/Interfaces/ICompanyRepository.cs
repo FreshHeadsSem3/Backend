@@ -7,6 +7,7 @@ namespace FreshHeadBackend.Interfaces
         List<Company> GetAllCompanies();
         Company GetCompany(Guid companyID);
         Company GetCompanyByID(Guid companyID);
+        Company GetCompanyByDealID(Guid dealID);
         Company CreateCompany(Company companyEntity);
         List<Company> GetCompanies();
         CompanyImage CreateCompanyImage(CompanyImage imageEntity);

@@ -37,6 +37,12 @@ namespace FreshHeadBackend.Repositories
             }
             return company;
         }
+
+        public Company GetCompanyByDealID(Guid dealID)
+        {
+            return Companies.Where(x => x.Deals.Any(d => d.ID == dealID)).FirstOrDefault();
+        }
+
         public Company CreateCompany(Company companyEntity)
         {
             Companies.Add(companyEntity);

@@ -12,9 +12,9 @@ namespace FreshHeadBackend.Controllers
         private readonly ICompanyService companyService;
         private readonly IMapper mapper;
 
-        public CompanyController(ICompanyService companyLogic, IMapper mapper)
+        public CompanyController(ICompanyService companyService, IMapper mapper)
         {
-            this.companyService = companyLogic;
+            this.companyService = companyService;
             this.mapper = mapper;
         }
 
@@ -42,6 +42,13 @@ namespace FreshHeadBackend.Controllers
             CompanyModel result = companyService.CreateCompany(model);
 
             return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("deal/{ID}")]
+        public IActionResult GetCompanyByDealID(Guid ID)
+        {
+            return Ok(companyService.GetCompanyByDealID(ID));
         }
 
         [HttpGet]

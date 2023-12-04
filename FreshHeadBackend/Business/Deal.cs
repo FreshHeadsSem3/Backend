@@ -12,7 +12,7 @@ namespace FreshHeadBackend.Business
         [Key] [Required] public Guid ID { get; set; }
         [Required] public string Title { get; set; }
         public string Description { get; set; }
-        [AllowNull] public int MaxParticipents { get; set; }
+        [AllowNull] public int MaxParticipants { get; set; }
         [AllowNull] public string Location { get; set; }
         [AllowNull] public DateTime ActiveTill { get; set; }
         [AllowNull] public DateTime EventDate { get; set; }
@@ -32,7 +32,7 @@ namespace FreshHeadBackend.Business
             this.Title = model.title;
             this.Description = model.description;
             this.Location = model.location;
-            this.MaxParticipents = model.maxParticipants;
+            this.MaxParticipants = model.maxParticipants;
             this.ActiveTill = model.activeTill;
             this.CategoryID = model.categoryID;
         }
@@ -45,6 +45,15 @@ namespace FreshHeadBackend.Business
                 stringImages.Add(image.ImageUrl);
             }
             return new DealModel(ID, Title, Description,stringImages, DealCategory.Name);
+        }
+
+        public int GetParticipantsCount()
+        {
+            if (this.Participants == null) {
+                return 0;
+            } else {
+                return this.Participants.Count();
+            }
         }
     }
 }

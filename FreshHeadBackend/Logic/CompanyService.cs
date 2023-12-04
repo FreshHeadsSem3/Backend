@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using FreshHeadBackend.Business;
 using FreshHeadBackend.Interfaces;
 using FreshHeadBackend.Models;

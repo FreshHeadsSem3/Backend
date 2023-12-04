@@ -2,6 +2,7 @@
 using FreshHeadBackend.Business;
 using FreshHeadBackend.Interfaces;
 using FreshHeadBackend.Models;
+using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.Design;
 
 namespace FreshHeadBackend.Logic
@@ -10,11 +11,15 @@ namespace FreshHeadBackend.Logic
     {
         private readonly IMapper mapper;
         private readonly ICompanyRepository companyRepository;
+        private readonly UserManager<Company> companymanager;
+        private readonly SignInManager<Company> signInManager;
 
-        public CompanyService(IMapper mapper, ICompanyRepository companyRepository)
+        public CompanyService(IMapper mapper, ICompanyRepository companyRepository, UserManager<Company> companymanager, SignInManager<Company> signInManager)
         {
             this.mapper = mapper;
             this.companyRepository = companyRepository;
+            this.companymanager = companymanager;
+            this.signInManager = signInManager;
         }
 
         public Company GetCompany(Guid companyID)
@@ -48,6 +53,11 @@ namespace FreshHeadBackend.Logic
             return new CompanyModel(returnedCompany);
         }
 
+        public Company GetCompanyByEmail(string email)
+        {
+            return companyRepository.GetCompanyByEmail(email);
+
+        }
         public List<CompanyModel> GetCompanies()
         {
             List<CompanyModel> companymodels = new List<CompanyModel>();
@@ -58,6 +68,20 @@ namespace FreshHeadBackend.Logic
             }
 
             return companymodels;
+        }
+
+        public async Task<bool> ValidateCompany(LoginModel model)
+        {
+            var company = await companymanager.FindByIdAsync(model.ID.ToString());
+
+            if (company != null)
+            {
+                var signInResult = await signInManager.CheckPasswordSignInAsync(company, model.Password, false);
+                return signInResult.Succeeded;
+
+            }
+
+            return false;
         }
     }
 }

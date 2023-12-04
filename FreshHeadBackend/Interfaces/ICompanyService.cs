@@ -8,5 +8,7 @@ namespace FreshHeadBackend.Interfaces
         CompanyModel GetCompanyByID(Guid companyID);
         CompanyModel CreateCompany(CreateCompanyModel company);
         List<CompanyModel> GetCompanies();
+        Company GetCompanyByEmail(string email);
+        Task<bool> ValidateCompany(LoginModel model);
     }
 }

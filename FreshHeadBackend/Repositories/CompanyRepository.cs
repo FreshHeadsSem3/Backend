@@ -31,6 +31,29 @@ namespace FreshHeadBackend.Repositories
             }
             return company;
         }
+
+        public Company GetCompanyByEmail(string email)
+        {
+            Company company = null;
+            try
+            {
+                company = Companies.FirstOrDefault(x => x.UserEmail == email);
+                if (company == null)
+                {
+                    Console.WriteLine("Gebruiker niet gevonden");
+                }
+                else
+                {
+                    Console.WriteLine($"Gebruiker gevonden: {company.ID}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Er is een fout opgetreden: {ex.Message}");
+            }
+            return company;
+        }
+
         public Company CreateCompany(Company companyEntity)
         {
             Companies.Add(companyEntity);

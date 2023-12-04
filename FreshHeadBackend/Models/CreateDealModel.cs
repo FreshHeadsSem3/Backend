@@ -12,6 +12,10 @@
         public DateTime activeTill { get; set; }
         public Guid categoryID { get; set; }
 
+        public CreateDealModel()
+        {
+        }
+
         public CreateDealModel(Guid companyID, string title, string description, string location, List<string> images, int maxParticipants, DateTime activeTill, Guid categoryID)
         {
             this.companyID = companyID;

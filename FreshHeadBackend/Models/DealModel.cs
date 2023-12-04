@@ -8,7 +8,7 @@ namespace FreshHeadBackend.Models
         public Guid ID { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public int MaxParticipents { get; set; }
+        public int MaxParticipants { get; set; }
         public int Claimed { get; set; }
         public string Location { get; set; }
         public DateTime ActiveTill { get; set; }

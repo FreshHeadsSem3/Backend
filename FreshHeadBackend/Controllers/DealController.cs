@@ -37,9 +37,9 @@ namespace FreshHeadBackend.Controllers
 
         [HttpGet]
         [Route("deals/category/{category}")]
-        public IActionResult GetDealByCategory(string category)
+        public IActionResult GetDealByCategory(Guid categoryID)
         {
-            return Ok(dealService.GetDealByCategory(category));
+            return Ok(dealService.GetDealByCategory(categoryID));
         }
 
         //deal/deals/title/""
@@ -48,6 +48,12 @@ namespace FreshHeadBackend.Controllers
         public IActionResult GetDealByTitle(string title)
         {
             return Ok(dealService.GetDealByTitle(title));
+        }
+        [HttpGet]
+        [Route("deals/company/{companyName}")]
+        public IActionResult GetDealByCompanyName(string companyName)
+        {
+            return Ok(dealService.GetDealByCompanyName(companyName));
         }
 
         [HttpPost]

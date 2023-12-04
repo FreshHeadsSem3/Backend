@@ -17,14 +17,17 @@ namespace FreshHeadBackend.Repositories
             return Deals.Include(deal => deal.DealCategory).Include(deal => deal.Participants).ToList();
         }
 
-        public List<Deal> GetDealByCategory(string category)
+        public List<Deal> GetDealByCategory(Guid categoryID)
         {
             return Deals.Include(deal => deal.DealCategory).Include(deal => deal.Participants).Where(x => x.DealCategory.Name == category).ToList();
-            
         }
         public List<Deal> GetDealByTitle(string title)
         {
             return Deals.Include(deal => deal.DealCategory).Include(deal => deal.Participants).Where(x => x.Title.Contains(title)).ToList();
+        }
+        public List<Deal> GetDealByCompanyName(string companyName)
+        {
+            return Deals.Include(deal => deal.DealCategory).Where(x => x.Company.Title.Contains(companyName)).ToList();
         }
 
         
@@ -41,6 +44,11 @@ namespace FreshHeadBackend.Repositories
             if (deal != null)
             {
                 deal.Images = GetDealImageByDealID(dealID);
+                return deal;
+            }
+            else
+            {
+                return null;
             }
             return deal;
         }

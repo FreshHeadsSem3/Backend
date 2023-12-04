@@ -23,17 +23,29 @@ namespace FreshHeadBackend.Logic
         public List<DealModel> GetAllDeals()
         {
             List<DealModel> result = new List<DealModel>();
-            foreach(Deal deal in dealRepository.GetAllDeals()) {
-                deal.Images = getImagesByDealID(deal.ID);
-                result.Add(new DealModel(deal));
+
+            if (dealRepository.GetAllDeals() == null)
+            {
+                return null;
             }
-            return result;
+
+            else
+            {
+                foreach (Deal deal in dealRepository.GetAllDeals())
+                {
+                    deal.Images = getImagesByDealID(deal.ID);
+                    result.Add(new DealModel(deal));
+                }
+                return result;
+            }
+
+            
         }
 
-        public List<DealModel> GetDealByCategory(string category) 
+        public List<DealModel> GetDealByCategory(Guid categoryID) 
         {
             List<DealModel> result = new List<DealModel>();
-            foreach(Deal deal in dealRepository.GetDealByCategory(category))
+            foreach(Deal deal in dealRepository.GetDealByCategory(categoryID))
             {
                 deal.Images = getImagesByDealID(deal.ID);
                 result.Add(new DealModel(deal));
@@ -51,11 +63,29 @@ namespace FreshHeadBackend.Logic
             }
             return result;
         }
+        public List<DealModel> GetDealByCompanyName(string companyName)
+        {
+            List<DealModel> result = new List<DealModel>();
+            foreach(Deal deal in dealRepository.GetDealByCompanyName(companyName))
+            {
+                deal.Images = getImagesByDealID(deal.ID);
+                result.Add(new DealModel(deal));
+            }
+            return result;
+        }
 
         public DealModel GetDealByID(Guid dealID)
         {
-            Deal deal = dealRepository.GetDealById(dealID);
-            return new DealModel(deal);
+           Deal deal = dealRepository.GetDealById(dealID);
+           if ( deal == null)
+            {
+                return null;
+            }
+           else
+            {
+                return new DealModel(deal);
+            }
+            
         }
         private List<DealImage> getImagesByDealID(Guid dealID)
         {

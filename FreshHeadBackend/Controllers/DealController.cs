@@ -28,16 +28,11 @@ namespace FreshHeadBackend.Controllers
         [Route("{id}")]
         public IActionResult GetDealByID(Guid id)
         {
-            DealModel deal = dealService.GetDealByID(id);
-            if (deal == null)
-            {
-                return NotFound();
+            try {
+                return Ok(dealService.GetDealByID(id));
+            } catch(Exception ex) {
+                return Ok(ex);
             }
-            else
-            {
-                return Ok(deal);
-            }
-            
         }
 
         [HttpGet]
@@ -74,7 +69,7 @@ namespace FreshHeadBackend.Controllers
             return Ok(result);
         }
 
-        //dealClaimDeal
+        // deal/ClaimDeal
         [HttpPost]
         [Route("ClaimDeal")]
         public IActionResult ClaimDeal(ClaimDealModel model)
@@ -85,6 +80,16 @@ namespace FreshHeadBackend.Controllers
             return Ok(dealService.ClaimDeal(model));
         }
 
+        // deal/CancleDeal
+        [HttpPost]
+        [Route("CancelDeal")]
+        public IActionResult CancelDeal(CancelDealModel model)
+        {
+            if (!ModelState.IsValid) {
+                return BadRequest(ModelState);
+            }
+            return Ok(dealService.CancleDeal(model));
+        }
     }
 }
 

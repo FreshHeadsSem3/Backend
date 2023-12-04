@@ -28,6 +28,11 @@ namespace FreshHeadBackend.Logic
             return new CompanyModel(company);
         }
 
+        public CompanyModel GetCompanyByDealID(Guid dealID)
+        {
+            return new CompanyModel(companyRepository.GetCompanyByDealID(dealID));
+        }
+
         private List<CompanyImage> GetCompanyImageByCompanyID(Guid companyID)
         {
             return companyRepository.GetCompanyImageByCompanyID(companyID);

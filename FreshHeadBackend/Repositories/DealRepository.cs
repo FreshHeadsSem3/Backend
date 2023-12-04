@@ -14,17 +14,16 @@ namespace FreshHeadBackend.Repositories
 
         public List<Deal> GetAllDeals()
         {
-            return Deals.Include(deal => deal.DealCategory).ToList();
+            return Deals.Include(deal => deal.DealCategory).Include(deal => deal.Participants).ToList();
         }
 
         public List<Deal> GetDealByCategory(Guid categoryID)
         {
-            return Deals.Include(deal => deal.DealCategory).Where(x => x.DealCategory.ID == categoryID).ToList();
-            
+            return Deals.Include(deal => deal.DealCategory).Include(deal => deal.Participants).Where(x => x.DealCategory.Name == category).ToList();
         }
         public List<Deal> GetDealByTitle(string title)
         {
-            return Deals.Include(deal => deal.DealCategory).Where(x => x.Title.Contains(title)).ToList();
+            return Deals.Include(deal => deal.DealCategory).Include(deal => deal.Participants).Where(x => x.Title.Contains(title)).ToList();
         }
         public List<Deal> GetDealByCompanyName(string companyName)
         {
@@ -34,9 +33,14 @@ namespace FreshHeadBackend.Repositories
         
         public Deal GetDealById(Guid dealID)
         {
-
-            Deal deal = Deals.Include(deal => deal.DealCategory).Where(x => x.ID == dealID).FirstOrDefault();
-
+            Deal deal = Deals
+                .Include(deal => deal.DealCategory) // Include the category information
+                .Include(deal => deal.Participants)
+                .Where(x => x.ID == dealID)
+                .FirstOrDefault();
+            if(deal == null) {
+                throw new Exception("DealNotFound");
+            }
             if (deal != null)
             {
                 deal.Images = GetDealImageByDealID(dealID);
@@ -46,6 +50,7 @@ namespace FreshHeadBackend.Repositories
             {
                 return null;
             }
+            return deal;
         }
 
         public Deal CreateDeal(Deal dealEntity)
@@ -67,6 +72,26 @@ namespace FreshHeadBackend.Repositories
             return DealImages.Where(x => x.DealID == dealID).ToList();
         }
 
+        public DealParticipants CreateDealParticipant(DealParticipants participantEntity)
+        {
+            DealParticipants.Add(participantEntity);
+            Save();
+            return participantEntity;
+        }
+
+        public bool RemoveDealParticipant(Guid dealID, string usermail)
+        {
+            DealParticipants participantToRemove = DealParticipants
+                .Where(x => x.DealID == dealID && x.Email == usermail)
+                .FirstOrDefault();
+            if (participantToRemove != null) {
+                DealParticipants.Remove(participantToRemove);
+                Save();
+                return true; // Return true if removal was successful
+            }
+            return false; // Return false if no matching participant was found
+        }
+
         public void Save()
         {
             SaveChanges(true);
@@ -75,8 +100,6 @@ namespace FreshHeadBackend.Repositories
         public void Save(bool acceptChangesOnSuccess)
         {
             SaveChanges(acceptChangesOnSuccess);
-        }
-
-        
+        }        
     }
 }

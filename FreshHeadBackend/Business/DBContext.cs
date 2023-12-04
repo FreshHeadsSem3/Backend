@@ -15,6 +15,7 @@ namespace FreshHeadBackend.Business
         public virtual DbSet<CompanyImage> CompanyImages { get; set; }
         public virtual DbSet<DealImage> DealImages { get; set; }
         public virtual DbSet<DealCategory> DealCategories { get; set; }
+        public virtual DbSet<DealParticipants> DealParticipants { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

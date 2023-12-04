@@ -11,6 +11,12 @@ namespace FreshHeadBackend.Repositories
         {
             Database.EnsureCreated();
         }
+
+        public List<Company> GetAllCompanies()
+        {
+            return Companies.ToList();
+        }
+
         public Company GetCompany(Guid companyID)
         {
             Company company = Companies.Find(companyID);

@@ -4,6 +4,7 @@ namespace FreshHeadBackend.Interfaces
 {
     public interface ICompanyRepository
     {
+        List<Company> GetAllCompanies();
         Company GetCompany(Guid companyID);
         Company GetCompanyByID(Guid companyID);
         Company GetCompanyByDealID(Guid dealID);

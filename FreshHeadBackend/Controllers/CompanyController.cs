@@ -19,6 +19,12 @@ namespace FreshHeadBackend.Controllers
         }
 
         [HttpGet]
+        public IActionResult GetAllCompanies()
+        {
+            return Ok(companyService.GetAllCompanies());
+        }
+
+        [HttpGet]
         [Route("{ID}")]
         public IActionResult GetCompanyByID(Guid ID)
         {
@@ -46,6 +52,7 @@ namespace FreshHeadBackend.Controllers
         }
 
         [HttpGet]
+        [Route("dealCategory")]
         public IActionResult GetCompanies()
         {
             return Ok(companyService.GetCompanies());

@@ -1,4 +1,4 @@
-﻿using FreshHeadBackend.Business;
+using FreshHeadBackend.Business;
 using FreshHeadBackend.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -29,7 +29,7 @@ namespace FreshHeadBackend.Repositories
 
         public List<Deal> GetDealByCategory(Guid categoryID)
         {
-            return Deals.Include(deal => deal.DealCategory).Where(x => x.DealCategory.ID == categoryID).ToList();
+            return Deals.Include(deal => deal.DealCategory).Include(deal => deal.Participants).Where(x => x.DealCategory.ID == categoryID).ToList();
         }
         public List<Deal> GetDealByTitle(string title)
         {

@@ -29,7 +29,8 @@ namespace FreshHeadBackend
                     builder
                         .WithOrigins("http://localhost:4200")
                         .AllowAnyMethod()
-                        .AllowAnyHeader();
+                        .AllowAnyHeader()
+                        .WithMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
                 });
             });
             // Adding Authentication

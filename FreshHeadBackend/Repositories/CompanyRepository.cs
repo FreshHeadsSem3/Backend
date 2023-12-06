@@ -1,4 +1,4 @@
-﻿using FreshHeadBackend.Business;
+using FreshHeadBackend.Business;
 using FreshHeadBackend.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -38,9 +38,32 @@ namespace FreshHeadBackend.Repositories
             return company;
         }
 
-        public Company GetCompanyByDealID(Guid dealID)
+        public Company GetCompanyByEmail(string email)
         {
-            return Companies.Where(x => x.Deals.Any(d => d.ID == dealID)).FirstOrDefault();
+            Company company = null;
+            try
+            {
+                company = Companies.FirstOrDefault(x => x.UserEmail == email);
+                if (company == null)
+                {
+                    Console.WriteLine("Gebruiker niet gevonden");
+                }
+                else
+                {
+                    Console.WriteLine($"Gebruiker gevonden: {company.ID}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Er is een fout opgetreden: {ex.Message}");
+            }
+            return company;
+        }
+
+
+        public Company GetCompanyByDealID(Guid dealID)
+        {
+            return Companies.Where(x => x.Deals.Any(d => d.ID == dealID)).FirstOrDefault();
         }
 
         public Company CreateCompany(Company companyEntity)

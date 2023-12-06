@@ -1,8 +1,10 @@
-﻿using FreshHeadBackend.Interfaces;
+using FreshHeadBackend.Interfaces;
 using FreshHeadBackend.Models;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
 using FreshHeadBackend.Business;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace FreshHeadBackend.Controllers
 {
@@ -64,6 +66,7 @@ namespace FreshHeadBackend.Controllers
             return Ok(dealService.GetDealByCompany(companyID));
         }
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Company")]
         [HttpPost]
         public IActionResult CreateDeal(CreateDealModel model)
         {//verbeteren

@@ -52,7 +52,8 @@ namespace FreshHeadBackend.Controllers
               claims: new List<Claim>
               {
                   new Claim(ClaimTypes.Role, "Company"),
-                  new Claim(ClaimTypes.Name, "CompanyName")
+                  new Claim(ClaimTypes.Name, "CompanyName"),
+                  new Claim(ClaimTypes.NameIdentifier, company.ID.ToString())
               },
               expires: DateTime.Now.AddMinutes(120),
               signingCredentials: credentials);

@@ -17,7 +17,7 @@ namespace FreshHeadBackend.Controllers
         private readonly IMapper mapper;
         private readonly IConfiguration configuration;
 
-        public CompanyController(ICompanyService companyLogic, IMapper mapper, IConfiguration configuration)
+        public CompanyController(ICompanyService companyService, IMapper mapper, IConfiguration configuration)
         {
             this.companyService = companyService;
             this.mapper = mapper;

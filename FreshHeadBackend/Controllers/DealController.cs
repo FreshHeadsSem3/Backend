@@ -21,6 +21,7 @@ namespace FreshHeadBackend.Controllers
         }
 
         [HttpGet]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Company")]
         public IActionResult Index()
         {
             return Ok(dealService.GetAllDeals());

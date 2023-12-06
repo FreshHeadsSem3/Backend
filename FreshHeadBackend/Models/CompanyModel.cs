@@ -67,11 +67,5 @@ namespace FreshHeadBackend.Models
                 }
             }
         }
-
-        public CompanyModel(Guid iD, string title)
-        {
-            ID = iD;
-            Title = title;
-        }
     }
 }

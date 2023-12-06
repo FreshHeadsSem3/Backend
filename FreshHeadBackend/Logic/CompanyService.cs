@@ -78,11 +78,5 @@ namespace FreshHeadBackend.Logic
 
             return companymodels;
         }
-
-
-        public CompanyModel GetCompanyByDealID(Guid dealID)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

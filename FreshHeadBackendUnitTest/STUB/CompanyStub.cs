@@ -20,12 +20,22 @@ namespace FreshHeadBackendUnitTest.STUB
             throw new NotImplementedException();
         }
 
+        public List<Company> GetAllCompanies()
+        {
+            throw new NotImplementedException();
+        }
+
         public List<Company> GetCompanies()
         {
             throw new NotImplementedException();
         }
 
         public Company GetCompany(Guid companyID)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Company GetCompanyByDealID(Guid dealID)
         {
             throw new NotImplementedException();
         }

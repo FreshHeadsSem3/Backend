@@ -62,9 +62,9 @@ namespace FreshHeadBackend.Logic
             return new CompanyModel(returnedCompany);
         }
 
-        public Company GetCompanyByEmail(string email)
+        public Company GetCompanyByLoginData(LoginModel model)
         {
-            return companyRepository.GetCompanyByEmail(email);
+            return companyRepository.GetCompanyByLoginData(model);
 
         }
         public List<CompanyModel> GetCompanies()

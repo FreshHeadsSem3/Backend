@@ -14,7 +14,7 @@ namespace FreshHeadBackend.Repositories
 
         public List<Deal> GetAllDeals()
         {
-            List<Deal> deals = Deals.Include(deal => deal.DealCategory).ToList();
+            List<Deal> deals = Deals.Include(deal => deal.DealCategory).Include(deal => deal.Participants).ToList();
             if (deals == null)
             {
                 return null;

@@ -1,5 +1,6 @@
 using FreshHeadBackend.Business;
 using FreshHeadBackend.Interfaces;
+using FreshHeadBackend.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
@@ -38,19 +39,19 @@ namespace FreshHeadBackend.Repositories
             return company;
         }
 
-        public Company GetCompanyByEmail(string email)
+        public Company GetCompanyByLoginData(LoginModel model)
         {
             Company company = null;
             try
             {
-                company = Companies.FirstOrDefault(x => x.UserEmail == email);
+                company = Companies.FirstOrDefault(x => x.UserEmail == model.UserEmail && x.UserPassword == model.UserPassword);
                 if (company == null)
                 {
                     Console.WriteLine("Gebruiker niet gevonden");
                 }
                 else
                 {
-                    Console.WriteLine($"Gebruiker gevonden: {company.ID}");
+                    return company;
                 }
             }
             catch (Exception ex)
@@ -61,9 +62,12 @@ namespace FreshHeadBackend.Repositories
         }
 
 
-        public Company GetCompanyByDealID(Guid dealID)
-        {
-            return Companies.Where(x => x.Deals.Any(d => d.ID == dealID)).FirstOrDefault();
+        public Company GetCompanyByDealID(Guid dealID)
+
+        {
+
+            return Companies.Where(x => x.Deals.Any(d => d.ID == dealID)).FirstOrDefault();
+
         }
 
         public Company CreateCompany(Company companyEntity)

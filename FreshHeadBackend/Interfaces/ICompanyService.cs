@@ -10,6 +10,6 @@ namespace FreshHeadBackend.Interfaces
         CompanyModel CreateCompany(CreateCompanyModel company);
         CompanyModel GetCompanyByDealID(Guid dealID);
         List<CompanyModel> GetCompanies();
-        Company GetCompanyByEmail(string email);
+        Company GetCompanyByLoginData(LoginModel model);
     }
 }

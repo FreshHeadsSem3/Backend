@@ -21,13 +21,6 @@ namespace FreshHeadBackend.Controllers
             _config = config;
             companyService = _companyService;
         }
-
-        [HttpGet]
-        public IActionResult GetCompanyByEmail(string email)
-        {
-            return Ok(companyService.GetCompanyByEmail(email));
-        }
-
     
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
@@ -37,7 +30,7 @@ namespace FreshHeadBackend.Controllers
                 return BadRequest("Invalid data");
 
             }
-            var company = companyService.GetCompanyByEmail(model.UserEmail);
+            var company = companyService.GetCompanyByLoginData(model);
 
             if (company == null)
             {

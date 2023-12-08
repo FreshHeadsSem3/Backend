@@ -8,7 +8,7 @@ namespace FreshHeadBackend.Models
         public Guid ID { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public int MaxParticipents { get; set; }
+        public int MaxParticipants { get; set; }
         public int Claimed { get; set; }
         public string Location { get; set; }
         public DateTime ActiveTill { get; set; }
@@ -45,26 +45,22 @@ namespace FreshHeadBackend.Models
             ID = deal.ID;
             Title = deal.Title;
             Description = deal.Description;
-            MaxParticipents = deal.MaxParticipents;
+            MaxParticipants = deal.MaxParticipants;
+            Claimed = deal.GetParticipantsCount();
             if (deal.Location != null) Location = deal.Location;
             else Location = "";
-            if (deal.ActiveTill < new DateTime(2000, 1, 1)) ;
+            if (deal.ActiveTill < new DateTime(2000, 1, 1)); //Geeft geen eindatum mee als de datum voor 2000 is.
             else ActiveTill = deal.ActiveTill;
 
-            if (deal.DealCategory != null)
-            {
+            if (deal.DealCategory != null) {
                 DealCategory = deal.DealCategory.Name;
-            }
-            else
-            {
+            } else {
                 DealCategoryID = deal.CategoryID;
                 DealCategory = null; 
             }
             Images = new List<string>();
-            if (deal.Images != null)
-            {
-                foreach (DealImage image in deal.Images)
-                {
+            if (deal.Images != null) {
+                foreach (DealImage image in deal.Images) {
                     Images.Add(image.ImageUrl);
                 }
             }

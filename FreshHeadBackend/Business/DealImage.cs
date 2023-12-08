@@ -14,5 +14,9 @@ namespace FreshHeadBackend.Business
             this.ImageUrl = imageUrl;
             this.DealID = dealID;
         }
+
+        public DealImage()
+        {
+        }
     }
 }

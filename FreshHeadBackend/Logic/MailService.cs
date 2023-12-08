@@ -19,11 +19,12 @@ namespace FreshHeadBackend.Logic
             };
 
             try {
-                smtpClient.Send(
-                new MailMessage(from: senderMail,
+                MailMessage message = new MailMessage(from: senderMail,
                                 to: mail,
                                 subject,
-                                mailMSG));
+                                mailMSG);
+                message.IsBodyHtml = true;
+                smtpClient.Send(message);
                 return true;
             } catch (Exception ex) { 
                 return false;

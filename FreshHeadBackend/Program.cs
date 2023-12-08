@@ -4,6 +4,9 @@ using FreshHeadBackend.Logic;
 using FreshHeadBackend.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Text;
 
 namespace FreshHeadBackend
 {
@@ -26,8 +29,28 @@ namespace FreshHeadBackend
                     builder
                         .WithOrigins("http://localhost:4200")
                         .AllowAnyMethod()
-                        .AllowAnyHeader();
+                        .AllowAnyHeader()
+                        .WithMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
                 });
+            });
+            // Adding Authentication
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            // Adding Jwt Bearer
+            .AddJwtBearer(options =>
+            {
+                options.SaveToken = true;
+                options.RequireHttpsMetadata = false;
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidAudience = builder.Configuration.GetSection("JWT:ValidAudience").Value,
+                    ValidIssuer = builder.Configuration.GetSection("JWT:ValidIssuer").Value,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("JWT:Key").Value)),
+
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true
+                };
             });
 
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -68,6 +91,7 @@ namespace FreshHeadBackend
             builder.Services.AddScoped<ICompanyService, CompanyService>();
             builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
             builder.Services.AddScoped<IMailService, MailService>();
+            builder.Services.AddScoped<IKvKService, KvKService>();
         }
     }
 }

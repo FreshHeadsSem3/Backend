@@ -1,8 +1,10 @@
-﻿using AutoMapper;
+using AutoMapper;
 using FreshHeadBackend.Business;
 using FreshHeadBackend.Interfaces;
 using FreshHeadBackend.Models;
+using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.Design;
+using FreshHeadBackend.Repositories;
 
 namespace FreshHeadBackend.Logic
 {
@@ -15,6 +17,21 @@ namespace FreshHeadBackend.Logic
         {
             this.mapper = mapper;
             this.companyRepository = companyRepository;
+        }
+
+        public List<CompanyModel> GetAllCompanies()
+        {
+            List<CompanyModel> result = new List<CompanyModel>();
+            foreach (Company company in companyRepository.GetAllCompanies())
+            {
+                company.Images = GetCompanyImageByCompanyID(company.ID);
+                result.Add(new CompanyModel(company));
+            }
+            return result;
+        }
+        public CompanyModel GetCompanyByDealID(Guid dealID)
+        {
+            return new CompanyModel(companyRepository.GetCompanyByDealID(dealID));
         }
 
         public Company GetCompany(Guid companyID)
@@ -35,12 +52,9 @@ namespace FreshHeadBackend.Logic
 
         public CompanyModel CreateCompany(CreateCompanyModel insertCompany)
         {
-            Company company = new Company();
-            company.Title = insertCompany.Title;
-            company.Description = insertCompany.Description;
-            company.KVK = insertCompany.KVK;
+            Company company = new Company(insertCompany);
             Company returnedCompany = companyRepository.CreateCompany(company);
-            foreach(string image in insertCompany.Images)
+            foreach (string image in insertCompany.Images)
             {
                 CompanyImage companyImage = new CompanyImage(image, returnedCompany.ID);
                 companyRepository.CreateCompanyImage(companyImage);
@@ -48,6 +62,11 @@ namespace FreshHeadBackend.Logic
             return new CompanyModel(returnedCompany);
         }
 
+        public Company GetCompanyByLoginData(LoginModel model)
+        {
+            return companyRepository.GetCompanyByLoginData(model);
+
+        }
         public List<CompanyModel> GetCompanies()
         {
             List<CompanyModel> companymodels = new List<CompanyModel>();

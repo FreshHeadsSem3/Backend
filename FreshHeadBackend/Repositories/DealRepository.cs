@@ -2,17 +2,19 @@ using FreshHeadBackend.Business;
 using FreshHeadBackend.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Linq;
 
 namespace FreshHeadBackend.Repositories
 {
     public class DealRepository : DBContext, IDealRepository
     {
+        private DateTime DateTime = new DateTime(2000, 1, 1);
         public DealRepository(DbContextOptions options) : base(options)
         {
             Database.EnsureCreated();
         }
 
-        public List<Deal> GetAllDeals()
+        public List<Deal> GetAllDealsForCompany()
         {
             List<Deal> deals = Deals.Include(deal => deal.DealCategory).ToList();
             if (deals == null)
@@ -27,9 +29,34 @@ namespace FreshHeadBackend.Repositories
             
         }
 
+
+        public List<Deal> GetAllDeals()
+        {
+            
+
+            List<Deal> deals = Deals
+                .Where(x => x.ActiveTill < DateTime || x.ActiveTill > DateTime.Now).Where(x => x.MaxParticipants == 0 || x.MaxParticipants > x.Participants.Count)
+                 .Include(deal => deal.DealCategory)
+                 .ToList();
+            
+
+            if (deals.Count == 0)
+            {
+                return null;
+            }
+            else
+            {
+                return deals;
+            }
+
+        }
+
         public List<Deal> GetDealByCategory(Guid categoryID)
         {
-            return Deals.Include(deal => deal.DealCategory).Include(deal => deal.Participants).Where(x => x.DealCategory.ID == categoryID).ToList();
+            return Deals
+                .Where(x => x.ActiveTill < DateTime || x.ActiveTill > DateTime.Now)
+                .Where(x => x.MaxParticipants == 0 || x.MaxParticipants > x.Participants.Count)
+                .Include(deal => deal.DealCategory).Include(deal => deal.Participants).Where(x => x.DealCategory.ID == categoryID).ToList();
         }
         public List<Deal> GetDealByTitle(string title)
         {
@@ -46,7 +73,10 @@ namespace FreshHeadBackend.Repositories
         }
         public List<Deal> GetDealByCompanyName(string companyName)
         {
-            List<Deal> deals = Deals.Include(deal => deal.DealCategory).Where(x => x.Company.Title.Contains(companyName)).ToList();
+            List<Deal> deals = Deals
+                .Where(x => x.ActiveTill < DateTime || x.ActiveTill > DateTime.Now)
+                .Where(x => x.MaxParticipants == 0 || x.MaxParticipants > x.Participants.Count).Include(deal => deal.DealCategory)
+                .Where(x => x.Company.Title.Contains(companyName)).ToList();
 
             if (deals != null)
             {
@@ -60,13 +90,17 @@ namespace FreshHeadBackend.Repositories
 
         public List<Deal> GetDealByCompany(Guid companyID)
         {
-            return Deals.Include(deal => deal.DealCategory).Where(x => x.CompanyID == companyID).ToList();
+            return Deals
+                .Include(deal => deal.DealCategory)
+                .Where(x => x.CompanyID == companyID).ToList();
         }
 
         public Deal GetDealById(Guid dealID)
         {
             Deal deal = Deals
-                .Include(deal => deal.DealCategory) // Include the category information
+                .Where(x => x.ActiveTill < DateTime || x.ActiveTill > DateTime.Now)
+                .Where(x => x.MaxParticipants == 0 || x.MaxParticipants > x.Participants.Count)
+                .Include(deal => deal.DealCategory) 
                 .Include(deal => deal.Participants)
                 .Where(x => x.ID == dealID)
                 .FirstOrDefault();

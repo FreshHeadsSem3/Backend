@@ -5,7 +5,7 @@ namespace FreshHeadBackend.Logic
     public class TimerService : ITimerService
     {
         private Timer timer;
-        private int updateInterval;
+        private int updateInterval = 1000;
         public Task StartAsync()
         {
             Console.WriteLine("Timed hosted service started");

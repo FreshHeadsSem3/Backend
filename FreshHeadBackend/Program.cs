@@ -92,6 +92,7 @@ namespace FreshHeadBackend
             builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
             builder.Services.AddScoped<IMailService, MailService>();
             builder.Services.AddScoped<IKvKService, KvKService>();
+            builder.Services.AddScoped<ITimerService, TimerService>();
         }
     }
 }

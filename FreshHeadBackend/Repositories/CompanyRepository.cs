@@ -39,6 +39,20 @@ namespace FreshHeadBackend.Repositories
             return company;
         }
 
+        public List<Company> GetCompanyByTitle(string title)
+        {
+            List<Company> companies = Companies.Where(x => x.Title.Contains(title)).ToList();
+
+            if (companies != null)
+            {
+                return companies;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public Company GetCompanyByLoginData(LoginModel model)
         {
             Company company = null;

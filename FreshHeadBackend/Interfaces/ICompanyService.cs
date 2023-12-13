@@ -7,6 +7,7 @@ namespace FreshHeadBackend.Interfaces
     {
         List<CompanyModel> GetAllCompanies();
         CompanyModel GetCompanyByID(Guid companyID);
+        List<CompanyModel> GetCompanyByTitle(string title);
         CompanyModel CreateCompany(CreateCompanyModel company);
         CompanyModel GetCompanyByDealID(Guid dealID);
         List<CompanyModel> GetCompanies();

@@ -1,0 +1,26 @@
+﻿using FreshHeadBackend.Interfaces;
+
+namespace FreshHeadBackend.Logic
+{
+    public class TimerService : ITimerService
+    {
+        private Timer timer;
+        private int updateInterval;
+        public Task StartAsync()
+        {
+            Console.WriteLine("Timed hosted service started");
+            //detect weekday, set updateinterval
+
+
+            timer = new Timer(StatusUpdate, null, 0, updateInterval);
+
+            return Task.CompletedTask;
+        }
+
+
+        public void StatusUpdate(object state)
+        {
+            Console.WriteLine("StatusUpdate sent");
+        }
+    }
+}

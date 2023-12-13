@@ -16,12 +16,14 @@ namespace FreshHeadBackend.Controllers
         private readonly ICompanyService companyService;
         private readonly IMapper mapper;
         private readonly IConfiguration configuration;
+        readonly ITimerService timer;
 
-        public CompanyController(ICompanyService companyService, IMapper mapper, IConfiguration configuration)
+        public CompanyController(ICompanyService companyService, IMapper mapper, IConfiguration configuration, ITimerService timer)
         {
             this.companyService = companyService;
             this.mapper = mapper;
             this.configuration = configuration;
+            this.timer = timer;
         }
 
         [HttpGet]
@@ -36,7 +38,12 @@ namespace FreshHeadBackend.Controllers
         {
             return Ok(companyService.GetCompanyByID(ID));
         }
-
+        [HttpGet]
+        [Route("Timer")]
+        public IActionResult StartTimer()
+        {
+            return Ok(timer.StartAsync());
+        }
 
         [HttpPost]
         public IActionResult CreateCompany(CreateCompanyModel model)
@@ -51,11 +58,15 @@ namespace FreshHeadBackend.Controllers
             return Ok(result);
         }
 
-        [HttpGet]
+        [HttpGet]
+
         [Route("deal/{ID}")]
-        public IActionResult GetCompanyByDealID(Guid ID)
-        {
-            return Ok(companyService.GetCompanyByDealID(ID));
+        public IActionResult GetCompanyByDealID(Guid ID)
+
+        {
+
+            return Ok(companyService.GetCompanyByDealID(ID));
+
         }
 
         [HttpGet]

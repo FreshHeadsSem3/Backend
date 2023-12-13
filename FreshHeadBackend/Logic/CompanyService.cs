@@ -2,8 +2,9 @@ using AutoMapper;
 using FreshHeadBackend.Business;
 using FreshHeadBackend.Interfaces;
 using FreshHeadBackend.Models;
-using FreshHeadBackend.Repositories;
+using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.Design;
+using FreshHeadBackend.Repositories;
 
 namespace FreshHeadBackend.Logic
 {
@@ -61,6 +62,11 @@ namespace FreshHeadBackend.Logic
             return new CompanyModel(returnedCompany);
         }
 
+        public Company GetCompanyByLoginData(LoginModel model)
+        {
+            return companyRepository.GetCompanyByLoginData(model);
+
+        }
         public List<CompanyModel> GetCompanies()
         {
             List<CompanyModel> companymodels = new List<CompanyModel>();
@@ -72,7 +78,5 @@ namespace FreshHeadBackend.Logic
 
             return companymodels;
         }
-
-       
     }
 }

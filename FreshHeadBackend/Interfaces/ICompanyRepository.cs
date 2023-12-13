@@ -1,4 +1,5 @@
 ﻿using FreshHeadBackend.Business;
+using FreshHeadBackend.Models;
 
 namespace FreshHeadBackend.Interfaces
 {
@@ -12,6 +13,7 @@ namespace FreshHeadBackend.Interfaces
         List<Company> GetCompanies();
         CompanyImage CreateCompanyImage(CompanyImage imageEntity);
         List<CompanyImage> GetCompanyImageByCompanyID(Guid companyID);
+        Company GetCompanyByLoginData(LoginModel model);
         void Save();
         void Save(bool acceptChangesOnSuccess);
     }

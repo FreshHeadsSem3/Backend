@@ -1,4 +1,4 @@
-﻿using FreshHeadBackend.Models;
+using FreshHeadBackend.Models;
 using FreshHeadBackend.Repositories;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;

@@ -1,5 +1,5 @@
-﻿using FreshHeadBackend.Business;
 using FreshHeadBackend.Models;
+using FreshHeadBackend.Business;
 
 namespace FreshHeadBackend.Interfaces
 {
@@ -10,5 +10,6 @@ namespace FreshHeadBackend.Interfaces
         CompanyModel CreateCompany(CreateCompanyModel company);
         CompanyModel GetCompanyByDealID(Guid dealID);
         List<CompanyModel> GetCompanies();
+        Company GetCompanyByLoginData(LoginModel model);
     }
 }

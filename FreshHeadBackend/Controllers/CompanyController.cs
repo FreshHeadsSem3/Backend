@@ -1,7 +1,11 @@
-﻿using AutoMapper;
-using FreshHeadBackend.Interfaces;
+using AutoMapper;
 using FreshHeadBackend.Models;
+using FreshHeadBackend.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace FreshHeadBackend.Controllers
 {
@@ -11,11 +15,13 @@ namespace FreshHeadBackend.Controllers
     {
         private readonly ICompanyService companyService;
         private readonly IMapper mapper;
+        private readonly IConfiguration configuration;
 
-        public CompanyController(ICompanyService companyService, IMapper mapper)
+        public CompanyController(ICompanyService companyService, IMapper mapper, IConfiguration configuration)
         {
             this.companyService = companyService;
             this.mapper = mapper;
+            this.configuration = configuration;
         }
 
         [HttpGet]
@@ -31,6 +37,7 @@ namespace FreshHeadBackend.Controllers
             return Ok(companyService.GetCompanyByID(ID));
         }
 
+
         [HttpPost]
         public IActionResult CreateCompany(CreateCompanyModel model)
         {
@@ -44,11 +51,11 @@ namespace FreshHeadBackend.Controllers
             return Ok(result);
         }
 
-        [HttpGet]
+        [HttpGet]
         [Route("deal/{ID}")]
-        public IActionResult GetCompanyByDealID(Guid ID)
-        {
-            return Ok(companyService.GetCompanyByDealID(ID));
+        public IActionResult GetCompanyByDealID(Guid ID)
+        {
+            return Ok(companyService.GetCompanyByDealID(ID));
         }
 
         [HttpGet]

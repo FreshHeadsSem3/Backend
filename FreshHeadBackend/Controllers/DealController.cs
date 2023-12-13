@@ -1,8 +1,10 @@
-﻿using FreshHeadBackend.Interfaces;
+using FreshHeadBackend.Interfaces;
 using FreshHeadBackend.Models;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
-using FreshHeadBackend.Business;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace FreshHeadBackend.Controllers
 {
@@ -64,6 +66,7 @@ namespace FreshHeadBackend.Controllers
             return Ok(dealService.GetDealByCompany(companyID));
         }
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Company")]
         [HttpPost]
         public IActionResult CreateDeal(CreateDealModel model)
         {//verbeteren
@@ -72,9 +75,34 @@ namespace FreshHeadBackend.Controllers
                 return BadRequest(ModelState);
             }
 
-            DealModel result = dealService.CreateDeal(model);
+            string header = Request.Headers["Authorization"];
 
-            return Ok(result);
+            string[] parts = header.Split(new[] { "Bearer" }, StringSplitOptions.RemoveEmptyEntries);
+            string token = parts[0].Trim();
+
+            var handler = new JwtSecurityTokenHandler();
+            var jsonToken = handler.ReadToken(token) as JwtSecurityToken;
+
+            if (jsonToken != null) {
+                var nameIdentifierClaim = jsonToken.Claims.FirstOrDefault(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier");
+                if (nameIdentifierClaim != null) {
+                    if (Guid.TryParse(nameIdentifierClaim.Value, out Guid nameIdentifierGuid)) {
+                        // Use the nameIdentifierGuid as a Guid
+                        model.companyID = nameIdentifierGuid;
+                        DealModel result = dealService.CreateDeal(model);
+                        return Ok(result);
+                    } else {
+                        // Handle the case where the value is not a valid Guid
+                        return BadRequest("Invalid Guid format");
+                    }
+                } else {
+                    // Handle the case where the NameIdentifier claim is not present
+                    return BadRequest("NameIdentifier claim not present");
+                }
+            } else {
+                // Handle the case where the token is not a JwtSecurityToken
+                return BadRequest("Invalid JWT token format");
+            }
         }
 
         // deal/ClaimDeal

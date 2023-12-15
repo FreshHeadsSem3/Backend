@@ -59,7 +59,7 @@ jobs:
         with:
           logout: false
           registry: ghcr.io
-          username: ${{ secrets.ghcr_username }}
+          username: ${{ secrets.ghcrusername }}
           password: ${{ secrets.ghcr_password }}
 
       # Extract metadata (tags, labels) for Docker

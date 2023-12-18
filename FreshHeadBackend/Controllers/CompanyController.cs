@@ -39,11 +39,18 @@ namespace FreshHeadBackend.Controllers
             return Ok(companyService.GetCompanyByID(ID));
         }
         [HttpGet]
-        [Route("Timer")]
+        [Route("TimerStart")]
         public IActionResult StartTimer()
         {
             return Ok(timer.StartAsync());
         }
+        [HttpGet]
+        [Route("TimerStop")]
+        public IActionResult StopTimer()
+        {
+            return Ok(timer.StopAsync());
+        }
+
 
         [HttpPost]
         public IActionResult CreateCompany(CreateCompanyModel model)
@@ -59,7 +66,6 @@ namespace FreshHeadBackend.Controllers
         }
 
         [HttpGet]
-
         [Route("deal/{ID}")]
         public IActionResult GetCompanyByDealID(Guid ID)
 

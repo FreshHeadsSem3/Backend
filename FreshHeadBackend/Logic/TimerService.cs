@@ -28,7 +28,7 @@ namespace FreshHeadBackend.Logic
         }
         private int NextWeekday(DateTime date)
         {
-            var nearestMonday = date.AddDays(7 - (date.DayOfWeek == DayOfWeek.Monday ? 0 : (int)date.DayOfWeek) + (int)DayOfWeek.Monday);
+            var nearestMonday = date.AddDays(6 - (date.DayOfWeek == DayOfWeek.Monday ? 0 : (int)date.DayOfWeek) + (int)DayOfWeek.Monday);
             TimeSpan timeDiff = nearestMonday - date;
             int diffInMs = ((int)timeDiff.TotalMilliseconds);
             return diffInMs;

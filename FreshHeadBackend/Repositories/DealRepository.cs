@@ -88,6 +88,21 @@ namespace FreshHeadBackend.Repositories
             }
         }
 
+        public Deal UpdateDeal(Deal deal, List<string> images)
+        {
+            Deal SavedDeal = Deals.Where(x => x.ID == deal.ID).Include(deal => deal.Images).Include(deal => deal.DealCategory).FirstOrDefault();
+            SavedDeal.Images.First().ImageUrl = images[0];
+            SavedDeal.CategoryID = deal.CategoryID;
+            SavedDeal.Title = deal.Title;
+            SavedDeal.Description = deal.Description;
+            SavedDeal.Location = deal.Location;
+            SavedDeal.ActiveTill = deal.ActiveTill;
+            SavedDeal.EventDate = deal.EventDate;
+            SavedDeal.MaxParticipants = deal.MaxParticipants;
+            Save();
+            return SavedDeal;
+        }
+
         public List<Deal> GetDealByCompany(Guid companyID)
         {
             return Deals

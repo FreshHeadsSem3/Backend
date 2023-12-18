@@ -11,10 +11,12 @@ namespace FreshHeadBackend.Logic
         private readonly IMapper mapper;
         private readonly IDealRepository dealRepository;
         private readonly ICompanyRepository companyRepository;
+        private readonly IDealCategoryRepository dealCategoryRepository;
         private readonly IMailService mailService;
-        public DealService(IMapper mapper, IDealRepository dealRepository, ICompanyRepository companyRepository, IMailService mailService)
+        public DealService(IMapper mapper, IDealRepository dealRepository, ICompanyRepository companyRepository, IMailService mailService, IDealCategoryRepository categoryRepository)
         {
             this.mapper = mapper;
+            this.dealCategoryRepository = categoryRepository;
             this.dealRepository = dealRepository;
             this.companyRepository = companyRepository;
             this.mailService = mailService;
@@ -38,8 +40,6 @@ namespace FreshHeadBackend.Logic
                 }
                 return result;
             }
-
-            
         }
 
         public List<DealModel> GetDealByCategory(Guid categoryID) 
@@ -59,8 +59,8 @@ namespace FreshHeadBackend.Logic
                 }
                 return result;
             }
-
         }
+
         public List<DealModel> GetDealByTitle(string title) 
         {
             List<DealModel> result = new List<DealModel>();
@@ -149,7 +149,6 @@ namespace FreshHeadBackend.Logic
                 }
                 return new DealModel(returnedDeal);
             }
-            
         }
         
         public bool ClaimDeal(ClaimDealModel model)
@@ -167,6 +166,12 @@ namespace FreshHeadBackend.Logic
         public bool CancleDeal(CancelDealModel cancleDeal)
         {
             return dealRepository.RemoveDealParticipant(cancleDeal.DealID, cancleDeal.MailUser);
+        }
+
+        public DealModel UpdateDeal(DealModel deal)
+        {
+            dealCategoryRepository.GetAllDealCategories().ForEach(category => { if (category.Name == deal.DealCategory)deal.DealCategoryID = category.ID; });
+            return new DealModel(dealRepository.UpdateDeal(new Deal(deal.ID, deal.Title, deal.Description, deal.MaxParticipants, deal.Location, deal.ActiveTill, deal.EventDate, deal.DealCategoryID), deal.Images));
         }
     }
 }

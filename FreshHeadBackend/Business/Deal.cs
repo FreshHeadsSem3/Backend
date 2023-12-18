@@ -26,6 +26,18 @@ namespace FreshHeadBackend.Business
         {
         }
 
+        public Deal(Guid iD, string title, string description, int maxParticipants, string location, DateTime activeTill, DateTime eventDate, Guid categoryID)
+        {
+            ID = iD;
+            Title = title;
+            Description = description;
+            MaxParticipants = maxParticipants;
+            Location = location;
+            ActiveTill = activeTill;
+            EventDate = eventDate;
+            CategoryID = categoryID;
+        }
+
         public Deal(CreateDealModel model)
         {
             this.CompanyID = model.companyID;

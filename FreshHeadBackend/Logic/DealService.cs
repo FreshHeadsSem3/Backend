@@ -39,29 +39,22 @@ namespace FreshHeadBackend.Logic
                 return result;
             }
 
-            
+
         }
 
-        public List<DealModel> GetDealByCategory(Guid categoryID) 
+        public List<DealModel> GetDealByCategory(Guid categoryID)
         {
             List<DealModel> result = new List<DealModel>();
 
-            if(dealRepository.GetDealByCategory(categoryID) == null)
+            foreach (Deal deal in dealRepository.GetDealByCategory(categoryID))
             {
-                return null;
+                deal.Images = getImagesByDealID(deal.ID);
+                result.Add(new DealModel(deal));
             }
-            else
-            {
-                foreach (Deal deal in dealRepository.GetDealByCategory(categoryID))
-                {
-                    deal.Images = getImagesByDealID(deal.ID);
-                    result.Add(new DealModel(deal));
-                }
-                return result;
-            }
+            return result;
 
         }
-        public List<DealModel> GetDealByTitle(string title) 
+        public List<DealModel> GetDealByTitle(string title)
         {
             List<DealModel> result = new List<DealModel>();
 
@@ -99,7 +92,7 @@ namespace FreshHeadBackend.Logic
                 return result;
             }
 
-            
+
         }
 
         public List<DealModel> GetDealByCompany(Guid companyID)
@@ -115,16 +108,16 @@ namespace FreshHeadBackend.Logic
 
         public DealModel GetDealByID(Guid dealID)
         {
-           Deal deal = dealRepository.GetDealById(dealID);
-           if ( deal == null)
+            Deal deal = dealRepository.GetDealById(dealID);
+            if (deal == null)
             {
                 return null;
             }
-           else
+            else
             {
                 return new DealModel(deal);
             }
-            
+
         }
         private List<DealImage> getImagesByDealID(Guid dealID)
         {
@@ -149,16 +142,17 @@ namespace FreshHeadBackend.Logic
                 }
                 return new DealModel(returnedDeal);
             }
-            
+
         }
-        
+
         public bool ClaimDeal(ClaimDealModel model)
         {
             Deal deal = dealRepository.GetDealById(model.DealID);
             if (deal.MaxParticipants > 0 && deal.GetParticipantsCount() == deal.MaxParticipants) return false; //als maxparticipent bereikt is mag de deal niet geclaimed worden.
             if (deal.ActiveTill <= new DateTime()) return false; //als het op de datum of na de datum is mag de deal niet geclaimed worden.
             bool result = mailService.SendEmailAsync(model.MailUser, deal.Title, model.MailMSG);
-            if (result) {
+            if (result)
+            {
                 dealRepository.CreateDealParticipant(new DealParticipants(model.DealID, model.MailUser)); //als de deal een max participants heeft wordt er een deal geclaimed, alleen als de mail verstuurd is.
             }
             return result; //als de mail verzonden is return true. als de mail niet verzonden is return false

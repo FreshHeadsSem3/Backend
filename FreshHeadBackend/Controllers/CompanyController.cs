@@ -60,11 +60,15 @@ namespace FreshHeadBackend.Controllers
             return Ok(result);
         }
 
-        [HttpGet]
+        [HttpGet]
+
         [Route("deal/{ID}")]
-        public IActionResult GetCompanyByDealID(Guid ID)
-        {
-            return Ok(companyService.GetCompanyByDealID(ID));
+        public IActionResult GetCompanyByDealID(Guid ID)
+
+        {
+
+            return Ok(companyService.GetCompanyByDealID(ID));
+
         }
 
         [HttpGet]

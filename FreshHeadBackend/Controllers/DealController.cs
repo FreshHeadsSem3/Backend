@@ -126,6 +126,13 @@ namespace FreshHeadBackend.Controllers
             }
             return Ok(dealService.CancleDeal(model));
         }
+
+        [HttpGet]
+        [Route("GetParticipantsByDeal")]
+        public IActionResult GetParticipantsByDeal(Guid dealID)
+        {
+            return Ok(dealService.GetParticipantsByDeal(dealID));
+        }
     }
 }
 

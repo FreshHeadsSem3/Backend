@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using FreshHeadBackend.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace FreshHeadBackend.Business
 {
@@ -9,9 +10,12 @@ namespace FreshHeadBackend.Business
         public Guid DealID { get; set; }
         public string Email { get; set; }
 
-        public DealParticipants()
+        public DealParticipants(DealParticipantsModel model)
         {
-                
+            this.DealID = model.ID;
+            this.Deal = model.Deal;
+            this.ID = model.ID;
+            this.Email = model.Email;
         }
 
         public DealParticipants(Guid dealID, string email)

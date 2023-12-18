@@ -176,6 +176,21 @@ namespace FreshHeadBackend.Repositories
         public void Save(bool acceptChangesOnSuccess)
         {
             SaveChanges(acceptChangesOnSuccess);
-        }        
+        }
+
+        public List<DealParticipants> GetParticipantsByDeal(Guid dealID)
+        {
+            List<DealParticipants> deals = DealParticipants.Include(deal => deal.Email).ToList();
+            if (deals == null)
+            {
+                return null;
+            }
+            else
+            {
+                return deals;
+            }
+
+
+        }
     }
 }

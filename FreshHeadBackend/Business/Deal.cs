@@ -22,6 +22,7 @@ namespace FreshHeadBackend.Business
         public virtual ICollection<DealParticipants> Participants { get; set; }
         public virtual DealCategory DealCategory { get; set; }
         public Guid CategoryID { get; set; }
+
         public Deal()
         {
         }

@@ -107,14 +107,14 @@ namespace FreshHeadBackend.Repositories
         {
             return Deals
                 .Include(deal => deal.DealCategory)
+                .Include(deal => deal.Participants)
+                .Include(deal => deal.Images)
                 .Where(x => x.CompanyID == companyID).ToList();
         }
 
         public Deal GetDealById(Guid dealID)
         {
             Deal deal = Deals
-                .Where(x => x.ActiveTill < DateTime || x.ActiveTill > DateTime.Now)
-                .Where(x => x.MaxParticipants == 0 || x.MaxParticipants > x.Participants.Count)
                 .Include(deal => deal.DealCategory) 
                 .Include(deal => deal.Participants)
                 .Where(x => x.ID == dealID)

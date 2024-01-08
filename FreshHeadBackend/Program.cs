@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
+using Castle.Core.Configuration;
 
 namespace FreshHeadBackend
 {
@@ -14,10 +15,17 @@ namespace FreshHeadBackend
     {
         public static void Main(string[] args)
         {
+            var configuration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddEnvironmentVariables()
+                .Build();
+
+            DBContext.SetConfiguration(configuration);
+
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
+            builder.Services.AddDbContext<DBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -56,10 +64,10 @@ namespace FreshHeadBackend
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             //builder.Services.AddDbContext<DBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 
-            builder.Services.AddDbContext<Business.DBContext>(options =>
-            {
-                options.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
-            });
+           
+
+           
+            
 
             RegisterInterfaces(builder);
 
@@ -84,6 +92,7 @@ namespace FreshHeadBackend
         }
         private static void RegisterInterfaces(WebApplicationBuilder builder)
         {
+            builder.Services.AddScoped<IDBContext, DBContext>();
             builder.Services.AddScoped<IDealService, DealService>();
             builder.Services.AddScoped<IDealRepository, DealRepository>();
             builder.Services.AddScoped<IDealCategoryService, DealCategoryService>();
@@ -92,6 +101,7 @@ namespace FreshHeadBackend
             builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
             builder.Services.AddScoped<IMailService, MailService>();
             builder.Services.AddScoped<IKvKService, KvKService>();
+            builder.Services.AddScoped<ITimerService, TimerService>();
         }
     }
 }

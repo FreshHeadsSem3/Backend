@@ -1,13 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FreshHeadBackend.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer;
 
 namespace FreshHeadBackend.Business
 {
-    public class DBContext : DbContext
+    public class DBContext : DbContext, IDBContext
     {
-        public DBContext(DbContextOptions options) : base(options)
-        {
+        public DBContext(DbContextOptions<DBContext> options) : base(options) { }
 
+        public void InitializeDatabase()
+        {
+            Database.EnsureCreated();
         }
 
         public virtual DbSet<Company> Companies { get; set; }
@@ -16,6 +19,23 @@ namespace FreshHeadBackend.Business
         public virtual DbSet<DealImage> DealImages { get; set; }
         public virtual DbSet<DealCategory> DealCategories { get; set; }
         public virtual DbSet<DealParticipants> DealParticipants { get; set; }
+
+
+        private static IConfiguration Configuration { get; set; }
+
+
+        public static void SetConfiguration(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured && Configuration != null)
+            {
+                optionsBuilder.UseSqlServer(Configuration.GetConnectionString("Default"));
+
+            }
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

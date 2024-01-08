@@ -1,5 +1,6 @@
 ﻿using FreshHeadBackend.Business;
 using FreshHeadBackend.Interfaces;
+using FreshHeadBackend.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,6 +42,11 @@ namespace FreshHeadBackendUnitTest.STUB
         }
 
         public Company GetCompanyByID(Guid companyID)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Company GetCompanyByLoginData(LoginModel model)
         {
             throw new NotImplementedException();
         }

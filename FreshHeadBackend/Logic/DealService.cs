@@ -1,4 +1,4 @@
-﻿using FreshHeadBackend.Business;
+using FreshHeadBackend.Business;
 using FreshHeadBackend.Interfaces;
 using FreshHeadBackend.Models;
 using AutoMapper;
@@ -13,10 +13,12 @@ namespace FreshHeadBackend.Logic
         private readonly IMapper mapper;
         private readonly IDealRepository dealRepository;
         private readonly ICompanyRepository companyRepository;
+        private readonly IDealCategoryRepository dealCategoryRepository;
         private readonly IMailService mailService;
-        public DealService(IMapper mapper, IDealRepository dealRepository, ICompanyRepository companyRepository, IMailService mailService)
+        public DealService(IMapper mapper, IDealRepository dealRepository, ICompanyRepository companyRepository, IMailService mailService, IDealCategoryRepository categoryRepository)
         {
             this.mapper = mapper;
+            this.dealCategoryRepository = categoryRepository;
             this.dealRepository = dealRepository;
             this.companyRepository = companyRepository;
             this.mailService = mailService;
@@ -47,23 +49,20 @@ namespace FreshHeadBackend.Logic
         public List<DealModel> GetDealByCategory(Guid categoryID)
         {
             List<DealModel> result = new List<DealModel>();
+            
+            if(categoryID == new Guid("b9bb5e73-e0fe-40af-ac86-b27d3d57763c")) {
+                return GetAllDeals();
+            }        
 
-            if (dealRepository.GetDealByCategory(categoryID) == null)
+            foreach (Deal deal in dealRepository.GetDealByCategory(categoryID))
             {
-                return null;
+                deal.Images = getImagesByDealID(deal.ID);
+                result.Add(new DealModel(deal));
             }
-            else
-            {
-                foreach (Deal deal in dealRepository.GetDealByCategory(categoryID))
-                {
-                    deal.Images = getImagesByDealID(deal.ID);
-                    result.Add(new DealModel(deal));
-                }
-                return result;
-            }
-
+            return result;
         }
-        public List<DealModel> GetDealByTitle(string title)
+
+        public List<DealModel> GetDealByTitle(string title) 
         {
             List<DealModel> result = new List<DealModel>();
 
@@ -102,6 +101,16 @@ namespace FreshHeadBackend.Logic
             }
 
 
+        }
+
+        public List<DealModel> GetDealByCompanyOnlyValid(Guid companyID)
+        {
+            List<DealModel> result = new List<DealModel>();
+            foreach (Deal deal in dealRepository.GetDealsByCompanyOnlyValid(companyID)) {
+                deal.Images = getImagesByDealID(deal.ID);
+                result.Add(new DealModel(deal));
+            }
+            return result;
         }
 
         public List<DealModel> GetDealByCompany(Guid companyID)
@@ -164,12 +173,26 @@ namespace FreshHeadBackend.Logic
             {
                 dealRepository.CreateDealParticipant(new DealParticipants(model.DealID, model.MailUser)); //als de deal een max participants heeft wordt er een deal geclaimed, alleen als de mail verstuurd is.
             }
+            if (deal.MaxParticipants > 0)
+            {
+               double remaining = deal.GetParticipantsCount()/ deal.MaxParticipants * 100;
+                if (remaining < 15)
+                {
+                    //sendEmail
+                }
+            }
             return result; //als de mail verzonden is return true. als de mail niet verzonden is return false
         }
 
         public bool CancleDeal(CancelDealModel cancleDeal)
         {
             return dealRepository.RemoveDealParticipant(cancleDeal.DealID, cancleDeal.MailUser);
+        }
+
+        public DealModel UpdateDeal(DealModel deal)
+        {
+            dealCategoryRepository.GetAllDealCategories().ForEach(category => { if (category.Name == deal.DealCategory)deal.DealCategoryID = category.ID; });
+            return new DealModel(dealRepository.UpdateDeal(new Deal(deal.ID, deal.Title, deal.Description, deal.MaxParticipants, deal.Location, deal.ActiveTill, deal.EventDate, deal.DealCategoryID), deal.Images));
         }
 
         public IEnumerable<string> GetParticipantsEmailByDeal(Guid dealID)

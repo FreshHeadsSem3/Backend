@@ -1,5 +1,7 @@
 ﻿using FreshHeadBackend.Business;
 using FreshHeadBackend.Interfaces;
+using FreshHeadBackend.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +12,23 @@ namespace FreshHeadBackendUnitTest.STUB
 {
     public class DealStub : IDealRepository
     {
+        private readonly DealRepository _dealRepository;
+        public readonly IDBContext _dbContext;
         public List<Deal> deals = new List<Deal>();
         public DealImage dealImage = new DealImage();
         public DealStub()
         {
+            
+            var options = new DbContextOptionsBuilder<DBContext>()
+               .UseInMemoryDatabase(databaseName: "TestDatabase")
+            .Options;
+
+            _dbContext = new DBContext(options);
+
+            _dealRepository = new DealRepository(_dbContext);
+
+            SeedDatabase(); 
+
             deals.Add(new Deal()
             {
                 ID = new Guid("00000000-0000-0000-0000-000000000001"),
@@ -21,7 +36,7 @@ namespace FreshHeadBackendUnitTest.STUB
                 Description = "Don't miss out on this fantastic opportunity!",
                 Location = "City C",
                 MaxParticipants = 75,
-                ActiveTill = new DateTime(2023, 12, 31),
+                ActiveTill = new DateTime(2024, 12, 31),
                 CategoryID = new Guid("10000000-0000-0000-0000-000000000001")
             });
 
@@ -75,6 +90,52 @@ namespace FreshHeadBackendUnitTest.STUB
             };
         }
 
+        private void SeedDatabase()
+        {
+            if (!_dbContext.Deals.Any())
+            {
+                _dbContext.Deals.Add(new Deal
+                {
+                    ID = new Guid("00000000-0000-0000-0000-000000000001"),
+                    Title = "Exciting Deal 1",
+                    Description = "Don't miss out on this fantastic opportunityyyy!",
+                    Location = "City C",
+                    MaxParticipants = 75,
+                    ActiveTill = new DateTime(2024, 12, 31),
+                    CategoryID = new Guid("10000000-0000-0000-0000-000000000001"),
+                    Images = new List<DealImage>()
+                    {
+                        new DealImage()
+                        {
+                            DealID = new Guid("00000000-0000-0000-0000-000000000001"),
+                            ImageUrl = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.istockphoto.com%2Fphotos%2Fhappy-face&psig=AOvVaw0QZ4Z4Z4Z4Z4Z4Z4Z4Z4Z4&ust=1614780940000000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCJjQ9ZqH_-4CFQAAAAAdAAAAABAD"
+                        }
+                    },
+                    
+
+                });
+                _dbContext.Deals.Add(new Deal
+                {
+                    ID = new Guid("00000000-0000-0000-0000-000000000011"),
+                    Title = "Exciting Deal 1",
+                    Description = "Don't miss out on this fantastic opportunity!",
+                    Location = "City C",
+                    MaxParticipants = 75,
+                    ActiveTill = new DateTime(2023, 10, 31),
+                    CategoryID = new Guid("10000000-0000-0000-0000-000000000011")
+
+                });
+
+
+                // ... add more deals if needed
+
+
+                _dbContext.SaveChanges();
+
+                // i want to check if the deals are added to the database
+
+            }
+        }
         public Deal CreateDeal(Deal dealEntity)
         {
             deals.Add(dealEntity);
@@ -90,7 +151,7 @@ namespace FreshHeadBackendUnitTest.STUB
 
         public DealParticipants CreateDealParticipant(DealParticipants participantEntity)
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         public List<Deal> GetAllDeals()

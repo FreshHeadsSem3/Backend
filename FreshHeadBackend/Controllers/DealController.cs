@@ -68,6 +68,44 @@ namespace FreshHeadBackend.Controllers
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Company")]
+        [HttpGet]
+        [Route("companyJWT")]
+        public IActionResult GetDealByCompanyJWT(Guid companyID)
+        {
+            if (!ModelState.IsValid) {
+                return BadRequest(ModelState);
+            }
+
+            string header = Request.Headers["Authorization"];
+
+            string[] parts = header.Split(new[] { "Bearer" }, StringSplitOptions.RemoveEmptyEntries);
+            string token = parts[0].Trim();
+
+            var handler = new JwtSecurityTokenHandler();
+            var jsonToken = handler.ReadToken(token) as JwtSecurityToken;
+
+            if (jsonToken != null) {
+                var nameIdentifierClaim = jsonToken.Claims.FirstOrDefault(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier");
+                if (nameIdentifierClaim != null) {
+                    if (Guid.TryParse(nameIdentifierClaim.Value, out Guid nameIdentifierGuid)) {
+                        // Use the nameIdentifierGuid as a Guid
+                        List<DealModel> result = dealService.GetDealByCompany(nameIdentifierGuid);
+                        return Ok(result);
+                    } else {
+                        // Handle the case where the value is not a valid Guid
+                        return BadRequest("Invalid Guid format");
+                    }
+                } else {
+                    // Handle the case where the NameIdentifier claim is not present
+                    return BadRequest("NameIdentifier claim not present");
+                }
+            } else {
+                // Handle the case where the token is not a JwtSecurityToken
+                return BadRequest("Invalid JWT token format");
+            }
+        }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Company")]
         [HttpPost]
         public IActionResult CreateDeal(CreateDealModel model)
         {//verbeteren
@@ -104,6 +142,19 @@ namespace FreshHeadBackend.Controllers
                 // Handle the case where the token is not a JwtSecurityToken
                 return BadRequest("Invalid JWT token format");
             }
+        }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Company")]
+        [HttpPut]
+        [Route("UpdateDeal")]
+        public IActionResult UpdateDeal(DealModel model)
+        {//verbeteren
+            if (!ModelState.IsValid) {
+                return BadRequest(ModelState);
+            }
+
+            DealModel result = dealService.UpdateDeal(model);
+            return Ok(result);
         }
 
         // deal/ClaimDeal

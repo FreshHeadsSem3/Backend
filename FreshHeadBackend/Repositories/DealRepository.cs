@@ -38,22 +38,6 @@ namespace FreshHeadBackend.Repositories
                 .Where(x => x.ActiveTill < DateTime || x.ActiveTill > DateTime.Now).Where(x => x.MaxParticipants == 0 || x.MaxParticipants > x.Participants.Count)
                  .ToList();
             return deals;
-
-            //List<Deal> deals = Deals
-            //    .Where(x => x.ActiveTill < DateTime || x.ActiveTill > DateTime.Now).Where(x => x.MaxParticipants == 0 || x.MaxParticipants > x.Participants.Count)
-            //     .Include(deal => deal.DealCategory)
-            //     .ToList();
-            //return deals;
-
-            //if (deals.Count == 0)
-            //{
-            //    return null;
-            //}
-            //else
-            //{
-            //    return deals;
-            //}
-
         }
 
         public List<Deal> GetDealByCategory(Guid categoryID)
@@ -96,7 +80,7 @@ namespace FreshHeadBackend.Repositories
 
         public Deal UpdateDeal(Deal deal, List<string> images)
         {
-            Deal SavedDeal = Deals.Where(x => x.ID == deal.ID).Include(deal => deal.Images).Include(deal => deal.DealCategory).FirstOrDefault();
+            Deal SavedDeal = _dbContext.Deals.Where(x => x.ID == deal.ID).Include(deal => deal.Images).Include(deal => deal.DealCategory).FirstOrDefault();
             SavedDeal.Images.First().ImageUrl = images[0];
             SavedDeal.CategoryID = deal.CategoryID;
             SavedDeal.Title = deal.Title;
@@ -118,11 +102,20 @@ namespace FreshHeadBackend.Repositories
                 .Where(x => x.CompanyID == companyID).ToList();
         }
 
+        public List<Deal> GetDealsByCompanyOnlyValid(Guid companyID)
+        {
+            return _dbContext.Deals
+                .Where(x => x.ActiveTill < DateTime || x.ActiveTill > DateTime.Now)
+                .Where(x => x.MaxParticipants == 0 || x.MaxParticipants > x.Participants.Count)
+                .Include(deal => deal.DealCategory)
+                .Include(deal => deal.Participants)
+                .Include(deal => deal.Images)
+                .Where(x => x.CompanyID == companyID).ToList();
+        }
+
         public Deal GetDealById(Guid dealID)
         {
             Deal deal = _dbContext.Deals
-                .Where(x => x.ActiveTill < DateTime || x.ActiveTill > DateTime.Now)
-                .Where(x => x.MaxParticipants == 0 || x.MaxParticipants > x.Participants.Count)
                 .Include(deal => deal.DealCategory) 
                 .Include(deal => deal.Participants)
                 .Where(x => x.ID == dealID)

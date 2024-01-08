@@ -64,7 +64,7 @@ namespace FreshHeadBackend.Controllers
         [Route("company/{companyID}")]
         public IActionResult GetDealByCompany(Guid companyID)
         {
-            return Ok(dealService.GetDealByCompany(companyID));
+            return Ok(dealService.GetDealByCompanyOnlyValid(companyID));
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Company")]

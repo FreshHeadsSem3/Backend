@@ -10,6 +10,7 @@ namespace FreshHeadBackend.Interfaces
         List<DealModel> GetDealByCategory(Guid categoryID);
         List<DealModel> GetDealByTitle(string title);
         List<DealModel> GetDealByCompany(Guid companyID);
+        List<DealModel> GetDealByCompanyOnlyValid(Guid companyID);
         List<DealModel> GetDealByCompanyName(string companyName);
         DealModel UpdateDeal(DealModel deal);
         DealModel CreateDeal(CreateDealModel deal);

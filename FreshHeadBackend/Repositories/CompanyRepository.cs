@@ -43,7 +43,7 @@ namespace FreshHeadBackend.Repositories
 
         public List<Company> GetCompanyByTitle(string title)
         {
-            List<Company> companies = Companies.Where(x => x.Title.Contains(title)).ToList();
+            List<Company> companies = _dbContext.Companies.Where(x => x.Title.Contains(title)).ToList();
 
             if (companies != null)
             {

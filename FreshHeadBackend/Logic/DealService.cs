@@ -47,21 +47,17 @@ namespace FreshHeadBackend.Logic
         public List<DealModel> GetDealByCategory(Guid categoryID)
         {
             List<DealModel> result = new List<DealModel>();
+            
+            if(categoryID == new Guid("b9bb5e73-e0fe-40af-ac86-b27d3d57763c")) {
+                return GetAllDeals();
+            }        
 
             foreach (Deal deal in dealRepository.GetDealByCategory(categoryID))
             {
                 deal.Images = getImagesByDealID(deal.ID);
                 result.Add(new DealModel(deal));
             }
-            else
-            {
-                foreach (Deal deal in dealRepository.GetDealByCategory(categoryID))
-                {
-                    deal.Images = getImagesByDealID(deal.ID);
-                    result.Add(new DealModel(deal));
-                }
-                return result;
-            }
+            return result;
         }
 
         public List<DealModel> GetDealByTitle(string title) 
@@ -103,6 +99,16 @@ namespace FreshHeadBackend.Logic
             }
 
 
+        }
+
+        public List<DealModel> GetDealByCompanyOnlyValid(Guid companyID)
+        {
+            List<DealModel> result = new List<DealModel>();
+            foreach (Deal deal in dealRepository.GetDealsByCompanyOnlyValid(companyID)) {
+                deal.Images = getImagesByDealID(deal.ID);
+                result.Add(new DealModel(deal));
+            }
+            return result;
         }
 
         public List<DealModel> GetDealByCompany(Guid companyID)

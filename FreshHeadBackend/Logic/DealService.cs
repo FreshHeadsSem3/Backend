@@ -3,6 +3,7 @@ using FreshHeadBackend.Interfaces;
 using FreshHeadBackend.Models;
 using AutoMapper;
 using System.ComponentModel.Design;
+using FreshHeadBackend.Repositories;
 
 namespace FreshHeadBackend.Logic
 {
@@ -171,17 +172,9 @@ namespace FreshHeadBackend.Logic
             return dealRepository.RemoveDealParticipant(cancleDeal.DealID, cancleDeal.MailUser);
         }
 
-        public List<DealParticipantsModel> GetParticipantsByDeal(Guid dealID)
+        public IEnumerable<string> GetParticipantsEmailByDeal(Guid dealID)
         {
-            List<DealParticipantsModel> result = new List<DealParticipantsModel>();
-            if (dealRepository.GetParticipantsByDeal(dealID) == null)
-            {
-                return null;
-            }
-            else
-            {
-                return result;
-            }
+            return dealRepository.GetParticipantsEmailByDeal(dealID);
         }
     }
 }

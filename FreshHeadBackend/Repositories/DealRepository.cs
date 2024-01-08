@@ -178,19 +178,12 @@ namespace FreshHeadBackend.Repositories
             SaveChanges(acceptChangesOnSuccess);
         }
 
-        public List<DealParticipants> GetParticipantsByDeal(Guid dealID)
+        public IEnumerable<string> GetParticipantsEmailByDeal(Guid dealID)
         {
-            List<DealParticipants> deals = DealParticipants.Include(deal => deal.Email).ToList();
-            if (deals == null)
-            {
-                return null;
-            }
-            else
-            {
-                return deals;
-            }
-
-
+            return DealParticipants
+                           .Where(x => x.DealID == dealID)
+                           .Select(p => p.Email)
+                           .ToList();
         }
     }
 }

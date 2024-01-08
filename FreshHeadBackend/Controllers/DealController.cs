@@ -5,6 +5,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.IdentityModel.Tokens.Jwt;
+using FreshHeadBackend.Logic;
 
 namespace FreshHeadBackend.Controllers
 {
@@ -127,11 +128,15 @@ namespace FreshHeadBackend.Controllers
             return Ok(dealService.CancleDeal(model));
         }
 
-        [HttpGet]
-        [Route("GetParticipantsByDeal")]
-        public IActionResult GetParticipantsByDeal(Guid dealID)
+        [HttpGet("GetParticipantEmailsByDeal/{dealID}")]
+        public ActionResult<IEnumerable<string>> GetParticipantEmailsByDeal(Guid dealID)
         {
-            return Ok(dealService.GetParticipantsByDeal(dealID));
+            var emails = dealService.GetParticipantsEmailByDeal(dealID);
+            if (emails == null || !emails.Any())
+            {
+                return NotFound();
+            }
+            return Ok(emails);
         }
     }
 }

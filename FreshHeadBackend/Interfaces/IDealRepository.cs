@@ -17,6 +17,6 @@ namespace FreshHeadBackend.Interfaces
         bool RemoveDealParticipant(Guid dealID, string usermail);
         void Save();
         void Save(bool acceptChangesOnSuccess);
-        List<DealParticipants> GetParticipantsByDeal(Guid dealID);
+        IEnumerable<string> GetParticipantsEmailByDeal(Guid dealID);
     }
 }

@@ -189,5 +189,12 @@ namespace FreshHeadBackend.Repositories
             _dbContext.SaveChanges();
         }
 
+        public List<string> GetParticipantsEmailByDeal(Guid dealID)
+        {
+            return _dbContext.DealParticipants
+                .Where(x => x.DealID == dealID)
+                .Select(p => p.Email)
+                .ToList();
+        }
     }
 }

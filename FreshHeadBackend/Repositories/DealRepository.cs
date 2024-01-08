@@ -63,6 +63,7 @@ namespace FreshHeadBackend.Repositories
                 .Where(x => x.MaxParticipants == 0 || x.MaxParticipants > x.Participants.Count)
                 .Include(deal => deal.DealCategory).Include(deal => deal.Participants).Where(x => x.DealCategory.ID == categoryID).ToList();
         }
+
         public List<Deal> GetDealByTitle(string title)
         {
             List<Deal> deals = _dbContext.Deals.Include(deal => deal.DealCategory).Where(x => x.Title.Contains(title)).ToList();

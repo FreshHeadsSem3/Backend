@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using FreshHeadBackend.Logic;
 
 namespace FreshHeadBackend.Controllers
 {
@@ -37,6 +38,14 @@ namespace FreshHeadBackend.Controllers
             return Ok(companyService.GetCompanyByID(ID));
         }
 
+        //deal/deals/title/""
+        [HttpGet]
+        [Route("companies/title/{title}")]
+        public IActionResult GetCompanyByTitle(string title)
+        {
+            return Ok(companyService.GetCompanyByTitle(title));
+        }
+
 
         [HttpPost]
         public IActionResult CreateCompany(CreateCompanyModel model)
@@ -51,11 +60,15 @@ namespace FreshHeadBackend.Controllers
             return Ok(result);
         }
 
-        [HttpGet]
+        [HttpGet]
+
         [Route("deal/{ID}")]
-        public IActionResult GetCompanyByDealID(Guid ID)
-        {
-            return Ok(companyService.GetCompanyByDealID(ID));
+        public IActionResult GetCompanyByDealID(Guid ID)
+
+        {
+
+            return Ok(companyService.GetCompanyByDealID(ID));
+
         }
 
         [HttpGet]

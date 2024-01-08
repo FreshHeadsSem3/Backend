@@ -9,6 +9,7 @@ namespace FreshHeadBackend.Interfaces
         List<Deal> GetDealByTitle(string title);
         List<Deal> GetDealByCompany(Guid companyID);
         List<Deal> GetDealByCompanyName(string companyName);
+        Deal UpdateDeal(Deal deal, List<string> images);
         Deal GetDealById(Guid dealID);
         Deal CreateDeal(Deal dealEntity);
         DealImage CreateDealImage(DealImage imageEntity);

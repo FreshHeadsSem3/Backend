@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using FreshHeadBackend.Business;
 using FreshHeadBackend.Interfaces;
 using FreshHeadBackend.Models;
@@ -39,6 +39,26 @@ namespace FreshHeadBackend.Logic
         public CompanyModel GetCompanyByDealID(Guid dealID)
         {
             return new CompanyModel(companyRepository.GetCompanyByDealID(dealID));
+        }
+        public List<CompanyModel> GetCompanyByTitle(string title)
+        {
+            List<CompanyModel> result = new List<CompanyModel>();
+
+
+            if (companyRepository.GetCompanyByTitle(title) == null)
+            {
+                return null;
+            }
+            else
+            {
+                foreach (Company company in companyRepository.GetCompanyByTitle(title))
+                {
+                    company.Images = GetCompanyImageByCompanyID(company.ID);
+                    result.Add(new CompanyModel(company));
+                }
+                return result;
+            }
+
         }
 
         public Company GetCompany(Guid companyID)

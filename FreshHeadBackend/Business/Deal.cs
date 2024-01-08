@@ -22,8 +22,21 @@ namespace FreshHeadBackend.Business
         public virtual ICollection<DealParticipants> Participants { get; set; }
         public virtual DealCategory DealCategory { get; set; }
         public Guid CategoryID { get; set; }
+
         public Deal()
         {
+        }
+
+        public Deal(Guid iD, string title, string description, int maxParticipants, string location, DateTime activeTill, DateTime eventDate, Guid categoryID)
+        {
+            ID = iD;
+            Title = title;
+            Description = description;
+            MaxParticipants = maxParticipants;
+            Location = location;
+            ActiveTill = activeTill;
+            EventDate = eventDate;
+            CategoryID = categoryID;
         }
 
         public Deal(CreateDealModel model)

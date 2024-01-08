@@ -2,6 +2,8 @@ using FreshHeadBackend.Business;
 using FreshHeadBackend.Interfaces;
 using FreshHeadBackend.Models;
 using AutoMapper;
+using System.ComponentModel.Design;
+using FreshHeadBackend.Repositories;
 
 namespace FreshHeadBackend.Logic
 {
@@ -191,6 +193,11 @@ namespace FreshHeadBackend.Logic
         {
             dealCategoryRepository.GetAllDealCategories().ForEach(category => { if (category.Name == deal.DealCategory)deal.DealCategoryID = category.ID; });
             return new DealModel(dealRepository.UpdateDeal(new Deal(deal.ID, deal.Title, deal.Description, deal.MaxParticipants, deal.Location, deal.ActiveTill, deal.EventDate, deal.DealCategoryID), deal.Images));
+        }
+
+        public List<string> GetParticipantsEmailByDeal(Guid dealID)
+        {
+            return dealRepository.GetParticipantsEmailByDeal(dealID);
         }
     }
 }

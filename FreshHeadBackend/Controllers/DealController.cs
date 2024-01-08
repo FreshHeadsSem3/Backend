@@ -5,6 +5,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.IdentityModel.Tokens.Jwt;
+using FreshHeadBackend.Logic;
 
 namespace FreshHeadBackend.Controllers
 {
@@ -177,6 +178,17 @@ namespace FreshHeadBackend.Controllers
                 return BadRequest(ModelState);
             }
             return Ok(dealService.CancleDeal(model));
+        }
+
+        [HttpGet("GetParticipantEmailsByDeal/{dealID}")]
+        public IActionResult GetParticipantEmailsByDeal(Guid dealID)
+        {
+            List<string> emails = dealService.GetParticipantsEmailByDeal(dealID);
+            if (emails == null || !emails.Any())
+            {
+                return NotFound();
+            }
+            return Ok(emails);
         }
     }
 }

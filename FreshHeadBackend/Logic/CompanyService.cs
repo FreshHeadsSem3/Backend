@@ -78,5 +78,6 @@ namespace FreshHeadBackend.Logic
 
             return companymodels;
         }
+        
     }
 }

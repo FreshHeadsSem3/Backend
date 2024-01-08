@@ -6,17 +6,19 @@ using System.Linq;
 
 namespace FreshHeadBackend.Repositories
 {
-    public class DealRepository : DBContext, IDealRepository
+    public class DealRepository :  IDealRepository
     {
         private DateTime DateTime = new DateTime(2000, 1, 1);
-        public DealRepository(DbContextOptions options) : base(options)
+        private IDBContext _dbContext;
+        public DealRepository( IDBContext dbContext )
         {
-            Database.EnsureCreated();
+           
+            _dbContext = dbContext;
         }
 
         public List<Deal> GetAllDealsForCompany()
         {
-            List<Deal> deals = Deals.Include(deal => deal.DealCategory).Include(deal => deal.Participants).ToList();
+            List<Deal> deals = _dbContext.Deals.Include(deal => deal.DealCategory).Include(deal => deal.Participants).ToList();
             if (deals == null)
             {
                 return null;
@@ -32,35 +34,38 @@ namespace FreshHeadBackend.Repositories
 
         public List<Deal> GetAllDeals()
         {
-            
-
-            List<Deal> deals = Deals
+            List<Deal> deals = _dbContext.Deals
                 .Where(x => x.ActiveTill < DateTime || x.ActiveTill > DateTime.Now).Where(x => x.MaxParticipants == 0 || x.MaxParticipants > x.Participants.Count)
-                 .Include(deal => deal.DealCategory)
                  .ToList();
-            
+            return deals;
 
-            if (deals.Count == 0)
-            {
-                return null;
-            }
-            else
-            {
-                return deals;
-            }
+            //List<Deal> deals = Deals
+            //    .Where(x => x.ActiveTill < DateTime || x.ActiveTill > DateTime.Now).Where(x => x.MaxParticipants == 0 || x.MaxParticipants > x.Participants.Count)
+            //     .Include(deal => deal.DealCategory)
+            //     .ToList();
+            //return deals;
+
+            //if (deals.Count == 0)
+            //{
+            //    return null;
+            //}
+            //else
+            //{
+            //    return deals;
+            //}
 
         }
 
         public List<Deal> GetDealByCategory(Guid categoryID)
         {
-            return Deals
+            return _dbContext.Deals
                 .Where(x => x.ActiveTill < DateTime || x.ActiveTill > DateTime.Now)
                 .Where(x => x.MaxParticipants == 0 || x.MaxParticipants > x.Participants.Count)
                 .Include(deal => deal.DealCategory).Include(deal => deal.Participants).Where(x => x.DealCategory.ID == categoryID).ToList();
         }
         public List<Deal> GetDealByTitle(string title)
         {
-            List<Deal> deals = Deals.Include(deal => deal.DealCategory).Where(x => x.Title.Contains(title)).ToList();
+            List<Deal> deals = _dbContext.Deals.Include(deal => deal.DealCategory).Where(x => x.Title.Contains(title)).ToList();
 
             if (deals != null)
             {
@@ -73,7 +78,7 @@ namespace FreshHeadBackend.Repositories
         }
         public List<Deal> GetDealByCompanyName(string companyName)
         {
-            List<Deal> deals = Deals
+            List<Deal> deals = _dbContext.Deals
                 .Where(x => x.ActiveTill < DateTime || x.ActiveTill > DateTime.Now)
                 .Where(x => x.MaxParticipants == 0 || x.MaxParticipants > x.Participants.Count).Include(deal => deal.DealCategory)
                 .Where(x => x.Company.Title.Contains(companyName)).ToList();
@@ -90,14 +95,14 @@ namespace FreshHeadBackend.Repositories
 
         public List<Deal> GetDealByCompany(Guid companyID)
         {
-            return Deals
+            return _dbContext.Deals
                 .Include(deal => deal.DealCategory)
                 .Where(x => x.CompanyID == companyID).ToList();
         }
 
         public Deal GetDealById(Guid dealID)
         {
-            Deal deal = Deals
+            Deal deal = _dbContext.Deals
                 .Where(x => x.ActiveTill < DateTime || x.ActiveTill > DateTime.Now)
                 .Where(x => x.MaxParticipants == 0 || x.MaxParticipants > x.Participants.Count)
                 .Include(deal => deal.DealCategory) 
@@ -127,7 +132,7 @@ namespace FreshHeadBackend.Repositories
             }
             else
             {
-                Deals.Add(dealEntity);
+                _dbContext.Deals.Add(dealEntity);
                 Save();
                 return dealEntity;
             }
@@ -138,30 +143,30 @@ namespace FreshHeadBackend.Repositories
 
         public DealImage CreateDealImage(DealImage imageEntity)
         {
-            DealImages.Add(imageEntity);
+            _dbContext.DealImages.Add(imageEntity);
             Save();
             return imageEntity;
         }
 
         public List<DealImage> GetDealImageByDealID(Guid dealID)
         {
-            return DealImages.Where(x => x.DealID == dealID).ToList();
+            return _dbContext.DealImages.Where(x => x.DealID == dealID).ToList();
         }
 
         public DealParticipants CreateDealParticipant(DealParticipants participantEntity)
         {
-            DealParticipants.Add(participantEntity);
+            _dbContext.DealParticipants.Add(participantEntity);
             Save();
             return participantEntity;
         }
 
         public bool RemoveDealParticipant(Guid dealID, string usermail)
         {
-            DealParticipants participantToRemove = DealParticipants
+            DealParticipants participantToRemove = _dbContext.DealParticipants
                 .Where(x => x.DealID == dealID && x.Email == usermail)
                 .FirstOrDefault();
             if (participantToRemove != null) {
-                DealParticipants.Remove(participantToRemove);
+                _dbContext.DealParticipants.Remove(participantToRemove);
                 Save();
                 return true; // Return true if removal was successful
             }
@@ -170,12 +175,12 @@ namespace FreshHeadBackend.Repositories
 
         public void Save()
         {
-            SaveChanges(true);
+            _dbContext.SaveChanges();
         }
 
         public void Save(bool acceptChangesOnSuccess)
         {
-            SaveChanges(acceptChangesOnSuccess);
-        }        
+            throw new NotImplementedException();
+        }
     }
 }

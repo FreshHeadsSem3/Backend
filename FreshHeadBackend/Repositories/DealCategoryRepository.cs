@@ -4,14 +4,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FreshHeadBackend.Repositories
 {
-    public class DealCategoryRepository : DBContext, IDealCategoryRepository
+    public class DealCategoryRepository : IDealCategoryRepository
     {
-        public DealCategoryRepository(DbContextOptions context) : base(context)
+        private DBContext _dbContext;
+        public DealCategoryRepository(DBContext dbContext)
         {
+            _dbContext = dbContext;
         }
         public List<DealCategory> GetAllDealCategories()
         {
-            return DealCategories.ToList();
+            return _dbContext.DealCategories.ToList();
         }
         
         

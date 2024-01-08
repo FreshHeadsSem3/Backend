@@ -51,6 +51,11 @@ namespace FreshHeadBackendUnitTest.STUB
             throw new NotImplementedException();
         }
 
+        public List<Company> GetCompanyByTitle(string Title)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<CompanyImage> GetCompanyImageByCompanyID(Guid companyID)
         {
             throw new NotImplementedException();

@@ -34,7 +34,8 @@ namespace FreshHeadBackendUnitTest
             IMapper _mapper = new MapperConfiguration(cfg => cfg.AddProfile(new MappingProfiles())).CreateMapper();
             ICompanyRepository _companyRepository = new CompanyRepository((DBContext)_dealStub._dbContext);
             IMailService _mailService = new MailService();
-            DealService _dealService = new DealService(_mapper, dealRepository, _companyRepository, _mailService);
+            IDealCategoryRepository _idealCategoryRepository = new DealCategoryRepository((DBContext)_dealStub._dbContext);
+            DealService _dealService = new DealService(_mapper, dealRepository, _companyRepository, _mailService, _idealCategoryRepository);
 
             var deals = _dealService.GetAllDeals();
 
@@ -56,7 +57,8 @@ namespace FreshHeadBackendUnitTest
              IMapper _mapper = new MapperConfiguration(cfg => cfg.AddProfile(new MappingProfiles())).CreateMapper();
              ICompanyRepository _companyRepository = new CompanyRepository((DBContext)_dealStub._dbContext);
              IMailService _mailService = new MailService();
-             DealService _dealService = new DealService(_mapper, _dealStub, _companyRepository, _mailService);
+            IDealCategoryRepository _idealCategoryRepository = new DealCategoryRepository((DBContext)_dealStub._dbContext);
+            DealService _dealService = new DealService(_mapper, _dealStub, _companyRepository, _mailService, _idealCategoryRepository);
 
             ClaimDealModel claimDealModel = new ClaimDealModel()
             {

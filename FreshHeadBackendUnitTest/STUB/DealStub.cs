@@ -210,5 +210,10 @@ namespace FreshHeadBackendUnitTest.STUB
         {
             throw new NotImplementedException();
         }
+
+        public List<string> GetParticipantsEmailByDeal(Guid dealID)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -38,6 +38,15 @@ namespace FreshHeadBackend.Controllers
         {
             return Ok(companyService.GetCompanyByID(ID));
         }
+
+        [HttpPost]
+        [Route("ForceUpdateMail")]
+        public IActionResult ForceUpdateMail()
+        {
+            timer.StatusUpdate(true);
+            return Ok(true);
+        }
+
         [HttpGet]
         [Route("TimerStart")]
         public IActionResult StartTimer()

@@ -195,7 +195,7 @@ namespace FreshHeadBackend.Logic
             return new DealModel(dealRepository.UpdateDeal(new Deal(deal.ID, deal.Title, deal.Description, deal.MaxParticipants, deal.Location, deal.ActiveTill, deal.EventDate, deal.DealCategoryID), deal.Images));
         }
 
-        public IEnumerable<string> GetParticipantsEmailByDeal(Guid dealID)
+        public List<string> GetParticipantsEmailByDeal(Guid dealID)
         {
             return dealRepository.GetParticipantsEmailByDeal(dealID);
         }

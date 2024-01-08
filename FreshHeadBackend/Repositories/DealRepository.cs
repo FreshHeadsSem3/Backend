@@ -189,17 +189,12 @@ namespace FreshHeadBackend.Repositories
             _dbContext.SaveChanges();
         }
 
-        public void Save(bool acceptChangesOnSuccess)
+        public List<string> GetParticipantsEmailByDeal(Guid dealID)
         {
-            SaveChanges(acceptChangesOnSuccess);
-        }
-
-        public IEnumerable<string> GetParticipantsEmailByDeal(Guid dealID)
-        {
-            return DealParticipants
-                           .Where(x => x.DealID == dealID)
-                           .Select(p => p.Email)
-                           .ToList();
+            return _dbContext.DealParticipants
+                .Where(x => x.DealID == dealID)
+                .Select(p => p.Email)
+                .ToList();
         }
     }
 }

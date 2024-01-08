@@ -181,9 +181,9 @@ namespace FreshHeadBackend.Controllers
         }
 
         [HttpGet("GetParticipantEmailsByDeal/{dealID}")]
-        public ActionResult<IEnumerable<string>> GetParticipantEmailsByDeal(Guid dealID)
+        public IActionResult GetParticipantEmailsByDeal(Guid dealID)
         {
-            var emails = dealService.GetParticipantsEmailByDeal(dealID);
+            List<string> emails = dealService.GetParticipantsEmailByDeal(dealID);
             if (emails == null || !emails.Any())
             {
                 return NotFound();

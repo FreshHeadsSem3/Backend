@@ -16,6 +16,6 @@ namespace FreshHeadBackend.Interfaces
         DealModel CreateDeal(CreateDealModel deal);
         bool ClaimDeal(ClaimDealModel claimDeal);
         bool CancleDeal(CancelDealModel cancleDeal);
-        IEnumerable<string> GetParticipantsEmailByDeal(Guid dealID);
+        List<string> GetParticipantsEmailByDeal(Guid dealID);
     }
 }

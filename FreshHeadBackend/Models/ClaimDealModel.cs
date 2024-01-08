@@ -12,5 +12,9 @@
             MailUser = mailUser;
             MailMSG = mailMSG;
         }
+
+        public ClaimDealModel()
+        {
+        }
     }
 }

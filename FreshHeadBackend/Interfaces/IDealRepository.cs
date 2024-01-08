@@ -18,6 +18,5 @@ namespace FreshHeadBackend.Interfaces
         DealParticipants CreateDealParticipant(DealParticipants participantEntity);
         bool RemoveDealParticipant(Guid dealID, string usermail);
         void Save();
-        void Save(bool acceptChangesOnSuccess);
     }
 }

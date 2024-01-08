@@ -189,9 +189,5 @@ namespace FreshHeadBackend.Repositories
             _dbContext.SaveChanges();
         }
 
-        public void Save(bool acceptChangesOnSuccess)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

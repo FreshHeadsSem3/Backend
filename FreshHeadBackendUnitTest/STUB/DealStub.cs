@@ -139,10 +139,5 @@ namespace FreshHeadBackendUnitTest.STUB
         {
             throw new NotImplementedException();
         }
-
-        public void Save(bool acceptChangesOnSuccess)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

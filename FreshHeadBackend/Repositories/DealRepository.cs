@@ -38,22 +38,6 @@ namespace FreshHeadBackend.Repositories
                 .Where(x => x.ActiveTill < DateTime || x.ActiveTill > DateTime.Now).Where(x => x.MaxParticipants == 0 || x.MaxParticipants > x.Participants.Count)
                  .ToList();
             return deals;
-
-            //List<Deal> deals = Deals
-            //    .Where(x => x.ActiveTill < DateTime || x.ActiveTill > DateTime.Now).Where(x => x.MaxParticipants == 0 || x.MaxParticipants > x.Participants.Count)
-            //     .Include(deal => deal.DealCategory)
-            //     .ToList();
-            //return deals;
-
-            //if (deals.Count == 0)
-            //{
-            //    return null;
-            //}
-            //else
-            //{
-            //    return deals;
-            //}
-
         }
 
         public List<Deal> GetDealByCategory(Guid categoryID)
@@ -63,6 +47,7 @@ namespace FreshHeadBackend.Repositories
                 .Where(x => x.MaxParticipants == 0 || x.MaxParticipants > x.Participants.Count)
                 .Include(deal => deal.DealCategory).Include(deal => deal.Participants).Where(x => x.DealCategory.ID == categoryID).ToList();
         }
+
         public List<Deal> GetDealByTitle(string title)
         {
             List<Deal> deals = _dbContext.Deals.Include(deal => deal.DealCategory).Where(x => x.Title.Contains(title)).ToList();
@@ -93,18 +78,44 @@ namespace FreshHeadBackend.Repositories
             }
         }
 
+        public Deal UpdateDeal(Deal deal, List<string> images)
+        {
+            Deal SavedDeal = _dbContext.Deals.Where(x => x.ID == deal.ID).Include(deal => deal.Images).Include(deal => deal.DealCategory).FirstOrDefault();
+            SavedDeal.Images.First().ImageUrl = images[0];
+            SavedDeal.CategoryID = deal.CategoryID;
+            SavedDeal.Title = deal.Title;
+            SavedDeal.Description = deal.Description;
+            SavedDeal.Location = deal.Location;
+            SavedDeal.ActiveTill = deal.ActiveTill;
+            SavedDeal.EventDate = deal.EventDate;
+            SavedDeal.MaxParticipants = deal.MaxParticipants;
+            Save();
+            return SavedDeal;
+        }
+
         public List<Deal> GetDealByCompany(Guid companyID)
         {
             return _dbContext.Deals
                 .Include(deal => deal.DealCategory)
+                .Include(deal => deal.Participants)
+                .Include(deal => deal.Images)
+                .Where(x => x.CompanyID == companyID).ToList();
+        }
+
+        public List<Deal> GetDealsByCompanyOnlyValid(Guid companyID)
+        {
+            return _dbContext.Deals
+                .Where(x => x.ActiveTill < DateTime || x.ActiveTill > DateTime.Now)
+                .Where(x => x.MaxParticipants == 0 || x.MaxParticipants > x.Participants.Count)
+                .Include(deal => deal.DealCategory)
+                .Include(deal => deal.Participants)
+                .Include(deal => deal.Images)
                 .Where(x => x.CompanyID == companyID).ToList();
         }
 
         public Deal GetDealById(Guid dealID)
         {
             Deal deal = _dbContext.Deals
-                .Where(x => x.ActiveTill < DateTime || x.ActiveTill > DateTime.Now)
-                .Where(x => x.MaxParticipants == 0 || x.MaxParticipants > x.Participants.Count)
                 .Include(deal => deal.DealCategory) 
                 .Include(deal => deal.Participants)
                 .Where(x => x.ID == dealID)
@@ -178,9 +189,5 @@ namespace FreshHeadBackend.Repositories
             _dbContext.SaveChanges();
         }
 
-        public void Save(bool acceptChangesOnSuccess)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

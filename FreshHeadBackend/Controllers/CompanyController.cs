@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using FreshHeadBackend.Logic;
 
 namespace FreshHeadBackend.Controllers
 {
@@ -16,12 +17,14 @@ namespace FreshHeadBackend.Controllers
         private readonly ICompanyService companyService;
         private readonly IMapper mapper;
         private readonly IConfiguration configuration;
+        readonly ITimerService timer;
 
-        public CompanyController(ICompanyService companyService, IMapper mapper, IConfiguration configuration)
+        public CompanyController(ICompanyService companyService, IMapper mapper, IConfiguration configuration, ITimerService timer)
         {
             this.companyService = companyService;
             this.mapper = mapper;
             this.configuration = configuration;
+            this.timer = timer;
         }
 
         [HttpGet]
@@ -35,6 +38,34 @@ namespace FreshHeadBackend.Controllers
         public IActionResult GetCompanyByID(Guid ID)
         {
             return Ok(companyService.GetCompanyByID(ID));
+        }
+
+        //deal/deals/title/""
+        [HttpGet]
+        [Route("companies/title/{title}")]
+        public IActionResult GetCompanyByTitle(string title)
+        {
+            return Ok(companyService.GetCompanyByTitle(title));
+        }
+        [HttpPost]
+        [Route("ForceUpdateMail")]
+        public IActionResult ForceUpdateMail()
+        {
+            timer.StatusUpdate(true);
+            return Ok(true);
+        }
+
+        [HttpGet]
+        [Route("TimerStart")]
+        public IActionResult StartTimer()
+        {
+            return Ok(timer.StartAsync());
+        }
+        [HttpGet]
+        [Route("TimerStop")]
+        public IActionResult StopTimer()
+        {
+            return Ok(timer.StopAsync());
         }
 
 
@@ -51,11 +82,14 @@ namespace FreshHeadBackend.Controllers
             return Ok(result);
         }
 
-        [HttpGet]
+        [HttpGet]
         [Route("deal/{ID}")]
-        public IActionResult GetCompanyByDealID(Guid ID)
-        {
-            return Ok(companyService.GetCompanyByDealID(ID));
+        public IActionResult GetCompanyByDealID(Guid ID)
+
+        {
+
+            return Ok(companyService.GetCompanyByDealID(ID));
+
         }
 
         [HttpGet]

@@ -191,6 +191,11 @@ namespace FreshHeadBackendUnitTest.STUB
 
         }
 
+        public List<Deal> GetDealsByCompanyOnlyValid(Guid companyID)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool RemoveDealParticipant(Guid dealID, string usermail)
         {
             throw new NotImplementedException();
@@ -201,7 +206,7 @@ namespace FreshHeadBackendUnitTest.STUB
             throw new NotImplementedException();
         }
 
-        public void Save(bool acceptChangesOnSuccess)
+        public Deal UpdateDeal(Deal deal, List<string> images)
         {
             throw new NotImplementedException();
         }

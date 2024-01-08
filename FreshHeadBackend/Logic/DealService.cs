@@ -41,7 +41,7 @@ namespace FreshHeadBackend.Logic
                 return result;
             }
 
-            
+
         }
 
         public List<DealModel> GetDealByCategory(Guid categoryID)
@@ -152,7 +152,7 @@ namespace FreshHeadBackend.Logic
                 }
                 return new DealModel(returnedDeal);
             }
-            
+
         }
 
         public bool ClaimDeal(ClaimDealModel model)
@@ -164,6 +164,14 @@ namespace FreshHeadBackend.Logic
             if (result)
             {
                 dealRepository.CreateDealParticipant(new DealParticipants(model.DealID, model.MailUser)); //als de deal een max participants heeft wordt er een deal geclaimed, alleen als de mail verstuurd is.
+            }
+            if (deal.MaxParticipants > 0)
+            {
+               double remaining = deal.GetParticipantsCount()/ deal.MaxParticipants * 100;
+                if (remaining < 15)
+                {
+                    //sendEmail
+                }
             }
             return result; //als de mail verzonden is return true. als de mail niet verzonden is return false
         }

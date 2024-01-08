@@ -12,5 +12,6 @@ namespace FreshHeadBackend.Interfaces
         CompanyModel GetCompanyByDealID(Guid dealID);
         List<CompanyModel> GetCompanies();
         Company GetCompanyByLoginData(LoginModel model);
+        string GetCompanyMailUpdate(Guid comapnyID);
     }
 }

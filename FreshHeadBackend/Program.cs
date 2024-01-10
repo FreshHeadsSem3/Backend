@@ -25,7 +25,7 @@ namespace FreshHeadBackend
             var builder = WebApplication.CreateBuilder(args);
             var configuredConnectionString = Environment.GetEnvironmentVariable("CONNECTIONSTRING_DEFAULT");
             // Add services to the container.
-            builder.Services.AddDbContext<DBContext>(options => options.UseSqlServer(configuredConnectionString);
+            builder.Services.AddDbContext<DBContext>(options => options.UseSqlServer(configuredConnectionString));
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();

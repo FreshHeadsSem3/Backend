@@ -32,7 +32,7 @@ namespace FreshHeadBackend.Business
         {
             if (!optionsBuilder.IsConfigured && Configuration != null)
             {
-                optionsBuilder.UseSqlServer(Configuration.GetConnectionString("Default"));
+                optionsBuilder.UseSqlServer(Environment.GetEnvironmentVariable("CONNECTIONSTRING_DEFAULT"));
 
             }
         }
